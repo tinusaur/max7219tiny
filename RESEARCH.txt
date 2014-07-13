@@ -1,0 +1,55 @@
+RESEARCH
+
+
+---- MAX7219 Datasheets ----
+
+MAX7219/MAX7221
+http://www.maximintegrated.com/en/products/power/display-power-control/MAX7219.html
+The MAX7219/MAX7221 are compact, serial input/output common-cathode display drivers that interface microprocessors (µPs) to 7-segment numeric LED displays of up to 8 digits, bar-graph displays, or 64 individual LEDs. Included on-chip are a BCD code-B decoder, multiplex scan circuitry, segment and digit drivers, and an 8x8 static RAM that stores each digit.
+PDF: http://datasheets.maximintegrated.com/en/ds/MAX7219-MAX7221.pdf
+
+
+---- Other MAX7219 Libraries ----
+
+LedControl
+http://playground.arduino.cc/Main/LedControl
+Arduino library for the MAX7221 and MAX7219.
+Demos: http://playground.arduino.cc/Main/LedControlDemos
+GitHub: https://github.com/wayoda/LedControl
+
+LED Matrix
+http://playground.arduino.cc/Main/LEDMatrix
+Controlling a Led matrix or 7-segment displays with the MAX7219 or the MAX7221
+Improvements: http://playground.arduino.cc/LEDMatrix/Max7219
+
+Matrix (at Wiring)
+http://www.wiring.org.co/reference/libraries/Matrix/index.html
+The Matrix library allows for writing data to a external LED matrix display using the MAX7219 LED matrix controller.
+
+
+---- Projects ----
+
+Arduino Game of Life on 8x8 LED Matrix
+http://brownsofa.org/blog/2010/12/30/arduino-8x8-game-of-life/
+I was messing around with some Christmas toys and threw together a Conway’s Game Of Life implementation together on my Arduino.  I just love how quick it is to get things up and running on this platform.  It took me longer to solder a platform for the LED matrix to raise it up off the breadboard so the wires would all fit than the whole rest of the project.
+
+
+---- Other References ----
+
+LED Matrix Kit
+http://linksprite.com/wiki/index.php5?title=LED_Matrix_Kit
+This product is a serially driven 8x8 LED Matrix kit powered by MAX7219.It only needs three data lines and two power lines.
+Store: http://store.linksprite.com/max7219-8x8-red-dot-led-matrix-kit/
+
+MAX72XX Hardware
+http://playground.arduino.cc/Main/MAX72XXHardware
+The MAX7219 and MAX7221 Led drivers
+
+https://en.wikipedia.org/wiki/ASCII
+
+
+
+
+
+
+
