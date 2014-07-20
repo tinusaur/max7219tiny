@@ -1,7 +1,7 @@
 /*
  * MAX7219Led8x8 - Tinusaur MAX7219 Library for LED 8x8 Matrix
  *
- * @file: max7219led8x8.h
+ * @file: max7219led8x8.c
  * @created: 2014-07-12
  * @author: Neven Boyanov
  *
@@ -35,6 +35,7 @@ void MAX7219_row(uint8_t address,uint8_t dat);
 void MAX7219_buffer_out(void);
 void MAX7219_buffer_set(uint8_t x, uint8_t y);
 void MAX7219_buffer_clr(uint8_t x, uint8_t y);
+void MAX7219_buffer_row(uint8_t row, uint8_t y);
 
 // --------------------------------------------------------------------
 

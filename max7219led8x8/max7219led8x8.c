@@ -79,4 +79,8 @@ void MAX7219_buffer_clr(uint8_t x, uint8_t y) {
 	MAX7219_buffer[sy] &= ~(1 << sx);
 }
 
+void MAX7219_buffer_row(uint8_t row, uint8_t y) {
+	MAX7219_buffer[y & 0b0111] = row;
+}
+
 // --------------------------------------------------------------------

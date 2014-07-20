@@ -33,6 +33,35 @@ Arduino Game of Life on 8x8 LED Matrix
 http://brownsofa.org/blog/2010/12/30/arduino-8x8-game-of-life/
 I was messing around with some Christmas toys and threw together a Conway’s Game Of Life implementation together on my Arduino.  I just love how quick it is to get things up and running on this platform.  It took me longer to solder a platform for the LED matrix to raise it up off the breadboard so the wires would all fit than the whole rest of the project.
 
+Dot Matrix Pen Write Screen
+http://www.elecfreaks.com/7138.html
+In the current market where capacitive touch screens, resistive touch screens, TFT displays are flooding, DIY enthusiasts have been rarely used dot matrix screens. Here we use 5mm 8 * 8 dot matrix screen and phototransistor to achieve a pen write function.
+
+
+---- Conway's Game of Life ----
+
+Conway's Game of Life
+https://en.wikipedia.org/wiki/Conways_Game_of_Life
+The Game of Life, also known simply as Life, is a cellular automaton devised by the British mathematician John Horton Conway in 1970.
+
+Oscillator (cellular automaton)
+https://en.wikipedia.org/wiki/Oscillator_(cellular_automaton)
+In a cellular automaton, an oscillator is a pattern that returns to its original state, in the same orientation and position, after a finite number of generations. Thus the evolution of such a pattern repeats itself indefinitely. Depending on context, the term may also include spaceships as well.
+
+Conway's Game of Life
+LifeWiki: http://www.conwaylife.com/wiki/
+Forums: http://www.conwaylife.com/forums/
+Golly: http://golly.sourceforge.net/
+
+Oscillator
+http://www.conwaylife.com/wiki/Oscillator
+An oscillator is a pattern that is a predecessor of itself. That is, it is a pattern that repeats itself after a fixed number of generations (known as its period). The term is usually restricted to finite patterns that are not still lifes, though still lifes may be thought of as oscillators with period 1. An oscillator is divided into a rotor and a stator.
+
+More examples: http://www.conwaylife.com/wiki/User:Extrementhusiast/Essays/Rule_B34S267
+
+Conway's Game of Life Wiki
+http://conwaygamelife.wikia.com/wiki/
+
 
 ---- Other References ----
 

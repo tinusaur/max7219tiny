@@ -1,6 +1,19 @@
 CHANGES
 
 
+2014-07-20 (nb)
+
+Added code for "scheduled" driver, Conway's Game of Life, new functions. Added ".hex" files. Updated texts.
+
+- Added the "scheduled" driver and testing program.
+- Added Conway's Game of Life code.
+- Moved file "max7219led8x8f.h" to the library folder.
+- Added new function MAX7219_buffer_row.
+- Updated text and comments in the source file. Updated "RESEARCH.txt" and "TODO.txt" files. Added "README.txt" for the library.
+- Added all ".hex" files.
+- Changed ".hgignore" file.
+
+
 2014-07-13 (nb)
 
 Files added to the repository.
