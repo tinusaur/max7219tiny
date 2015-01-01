@@ -1,6 +1,11 @@
 CHANGES
 
 
+2015-01-01 (nb)
+
+Updated TODO list.
+
+
 2014-07-20 (nb)
 
 Added code for "scheduled" driver, Conway's Game of Life, new functions. Added ".hex" files. Updated texts.
