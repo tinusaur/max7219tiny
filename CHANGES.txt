@@ -1,6 +1,11 @@
 CHANGES
 
 
+2015-03-03 (nb)
+
+Updated README, added LICENSE.
+
+
 2015-01-01 (nb)
 
 Updated TODO list.
