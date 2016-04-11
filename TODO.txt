@@ -9,5 +9,5 @@ TODO
 
 - Implement power saving mode
 - Optimize refresh rate in the scheduled library.
-- Make all functions in lower case.
+- Make all functions in lower case.	[x]
 

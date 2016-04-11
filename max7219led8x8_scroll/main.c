@@ -1,5 +1,5 @@
 /*
- * MAX7219Led8x8 - Tinusaur MAX7219 Library for LED 8x8 Matrix
+ * MAX7219LED8x8 - Tinusaur MAX7219 Library for LED 8x8 Matrix
  *
  * @file: main.c
  * @created: 2014-07-12
@@ -20,8 +20,18 @@
 
 // --------------------------------------------------------------------
 
-// ---------------------	// Vcc,	Pin 1 on LED8x8 Board
-// ---------------------	// GND,	Pin 2 on LED8x8 Board
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//                ATtiny
+//               25/45/85
+//             +----------+   (-)---GND--
+//           --+ PB5  Vcc +---(+)---VCC--
+// ---OWOWOD---+ PB3  PB2 +---------CLK--
+//           --+ PB4  PB1 +----------CS--
+// ------(-)---+ GND  PB0 +---------DIN--
+//             +----------+
+//
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 #define MAX7219_DIN		PB0	// DI,	Pin 3 on LED8x8 Board
 #define MAX7219_CS		PB1	// CS,	Pin 4 on LED8x8 Board
 #define MAX7219_CLK		PB2	// CLK,	Pin 5 on LED8x8 Board
@@ -68,7 +78,7 @@
 #define SCROLLX_X_X_X_ 0b10101010
 #define SCROLLXXXXXXXX 0b11111111
 
-uint8_t scrolls[100] PROGMEM = {
+const uint8_t scrolls[100] PROGMEM = {
 	SCROLL________,
 	SCROLL________,
 	SCROLL________,
@@ -176,7 +186,7 @@ uint8_t scrolls[100] PROGMEM = {
 int main(void) {
 
 	// ---- Initialization ----
-	MAX7219_init();
+	max7219_init();
 
 	// ---- Main Loop ----
 	uint8_t scrolls_index = 0;
@@ -186,7 +196,7 @@ int main(void) {
 		for (uint8_t screen_row = 8; screen_row >= 1; screen_row--) {
 			buffer_row = screen_row - 1;
 			// Output the buffer
-			MAX7219_row(screen_row, screen_buffer[buffer_row]);
+			max7219_row(screen_row, screen_buffer[buffer_row]);
 
 			// Scroll the row down
 			if (buffer_row > 0) {

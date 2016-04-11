@@ -1,5 +1,5 @@
 /*
- * MAX7219Led8x8 - Conway's Game of Life
+ * MAX7219LED8x8 - Conway's Game of Life
  *
  * @file: main.c
  * @created: 2014-07-18
@@ -19,8 +19,18 @@
 
 // --------------------------------------------------------------------
 
-// ---------------------	// Vcc,	Pin 1 on LED8x8 Board
-// ---------------------	// GND,	Pin 2 on LED8x8 Board
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//                ATtiny
+//               25/45/85
+//             +----------+   (-)---GND--
+//           --+ PB5  Vcc +---(+)---VCC--
+// ---OWOWOD---+ PB3  PB2 +---------CLK--
+//           --+ PB4  PB1 +----------CS--
+// ------(-)---+ GND  PB0 +---------DIN--
+//             +----------+
+//
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 #define MAX7219_DIN		PB0	// DI,	Pin 3 on LED8x8 Board
 #define MAX7219_CS		PB1	// CS,	Pin 4 on LED8x8 Board
 #define MAX7219_CLK		PB2	// CLK,	Pin 5 on LED8x8 Board
@@ -102,7 +112,7 @@ void life_board_init(life_board buffer) {
 
 void life_board_out(void) {
 	for (uint8_t y = 0; y <= 7; y++) {
-		MAX7219_buffer_row(LIFE_BOARD_ROW(y), y);
+		max7219_buffer_row(LIFE_BOARD_ROW(y), y);
 	}
 }
 

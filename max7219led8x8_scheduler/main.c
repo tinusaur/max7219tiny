@@ -1,5 +1,5 @@
 /*
- * MAX7219Led8x8 - Library with Scheduletr Test
+ * MAX7219LED8x8 - Library with Scheduletr Test
  *
  * @file: main.c
  * @created: 2014-07-18
@@ -18,8 +18,18 @@
 
 // --------------------------------------------------------------------
 
-// ---------------------	// Vcc,	Pin 1 on LED8x8 Board
-// ---------------------	// GND,	Pin 2 on LED8x8 Board
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//                ATtiny
+//               25/45/85
+//             +----------+   (-)---GND--
+//           --+ PB5  Vcc +---(+)---VCC--
+// ---OWOWOD---+ PB3  PB2 +---------CLK--
+//           --+ PB4  PB1 +----------CS--
+// ------(-)---+ GND  PB0 +---------DIN--
+//             +----------+
+//
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 #define MAX7219_DIN		PB0	// DI,	Pin 3 on LED8x8 Board
 #define MAX7219_CS		PB1	// CS,	Pin 4 on LED8x8 Board
 #define MAX7219_CLK		PB2	// CLK,	Pin 5 on LED8x8 Board
@@ -53,9 +63,9 @@ int main(void)
 		for (uint8_t y = 0; y <= 7; y++) {
 			for (uint8_t x = 0; x <= 7; x++) {
 				if (x == 0 && y == 0) xp = yp = 7;
-				MAX7219_buffer_set(x, y);	// Set pixel
+				max7219_buffer_set(x, y);	// Set pixel
 				_delay_ms(50);
-				MAX7219_buffer_clr(x, y);	// Clear pixel
+				max7219_buffer_clr(x, y);	// Clear pixel
 			}
 		}
 	}

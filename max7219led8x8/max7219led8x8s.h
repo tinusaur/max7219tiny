@@ -1,5 +1,5 @@
 /*
- * MAX7219Led8x8 - Tinusaur MAX7219 Library for LED 8x8 Matrix
+ * MAX7219LED8x8 - Tinusaur MAX7219 Library for LED 8x8 Matrix
  *
  * @file: max7219led8x8s.h
  * @created: 2014-07-18

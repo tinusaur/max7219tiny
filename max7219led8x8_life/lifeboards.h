@@ -1,5 +1,5 @@
 /*
- * MAX7219Led8x8 Life - Boards for Conway's Game of Life
+ * MAX7219LED8x8 Life - Boards for Conway's Game of Life
  *
  * @file: lifeboards.h
  * @created: 2014-07-19

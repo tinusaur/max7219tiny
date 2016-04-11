@@ -1,5 +1,5 @@
 /*
- * MAX7219Led8x8 - Tinusaur MAX7219 Library for LED 8x8 Matrix
+ * MAX7219LED8x8 - Tinusaur MAX7219 Library for LED 8x8 Matrix
  *
  * @file: max7219led8x8f.h
  * @created: 2014-07-12
@@ -16,7 +16,7 @@
 
 #include <avr/pgmspace.h>
 
-uint8_t max7219led8x8_font[64][8] PROGMEM = {
+const uint8_t max7219led8x8_font[64][8] PROGMEM = {
 
 	{	0b00000000,
 		0b00000000,

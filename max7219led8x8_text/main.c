@@ -1,5 +1,5 @@
 /*
- * MAX7219Led8x8 - Tinusaur MAX7219 Library for LED 8x8 Matrix
+ * MAX7219LED8x8 - Tinusaur MAX7219 Library for LED 8x8 Matrix
  *
  * @file: main.c
  * @created: 2014-07-12
@@ -20,8 +20,18 @@
 
 // --------------------------------------------------------------------
 
-// ---------------------	// Vcc,	Pin 1 on LED8x8 Board
-// ---------------------	// GND,	Pin 2 on LED8x8 Board
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//                ATtiny
+//               25/45/85
+//             +----------+   (-)---GND--
+//           --+ PB5  Vcc +---(+)---VCC--
+// ---OWOWOD---+ PB3  PB2 +---------CLK--
+//           --+ PB4  PB1 +----------CS--
+// ------(-)---+ GND  PB0 +---------DIN--
+//             +----------+
+//
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 #define MAX7219_DIN		PB0	// DI,	Pin 3 on LED8x8 Board
 #define MAX7219_CS		PB1	// CS,	Pin 4 on LED8x8 Board
 #define MAX7219_CLK		PB2	// CLK,	Pin 5 on LED8x8 Board
@@ -31,25 +41,25 @@
 
 // --------------------------------------------------------------------
 
-void MAX7219_ext_char(uint8_t c) {
+void max7219_ext_char(uint8_t c) {
 	for(uint8_t i = 1; i < 9; i++)
-		MAX7219_row(i, pgm_read_byte(&max7219led8x8_font[c - 32][i - 1]));
+		max7219_row(i, pgm_read_byte(&max7219led8x8_font[c - 32][i - 1]));
 }
 
-void MAX7219_ext_charxy(uint8_t c, uint8_t x, uint8_t y);	// TODO: Implement this.
+void max7219_ext_charxy(uint8_t c, uint8_t x, uint8_t y);	// TODO: Implement this.
 
 // ============================================================================
 
 int main(void) {
 
 	// ---- Initialization ----
-	MAX7219_init();
+	max7219_init();
 
 	// ---- Main Loop ----
 	while (1) {
 		for (uint8_t c = ' '; c <= '_'; c++)
 		{
-			MAX7219_ext_char(c);
+			max7219_ext_char(c);
 			_delay_ms(1000);
 		}
 		_delay_ms(400);

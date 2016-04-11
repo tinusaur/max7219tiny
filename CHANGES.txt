@@ -1,6 +1,17 @@
 CHANGES
 
 
+2015-04-11 (nb)
+
+Function names changed to lower case. Fixed Makefile files. Improved test scripts.
+
+- Function names changed to lower case, for consistency ans good style.
+- PROGMEM variables made constants, for compatibility with C compiler.
+- Changed max7219led8x8_test/main.c testing script, more interesting.
+- Fixed Makefiles to work under Windows newer SDKs.
+- Fixed typos in texts, other changes.
+
+
 2015-03-03 (nb)
 
 Updated README, added LICENSE.

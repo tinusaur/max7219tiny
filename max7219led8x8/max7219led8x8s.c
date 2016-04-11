@@ -1,5 +1,5 @@
 /*
- * MAX7219Led8x8 - Tinusaur MAX7219 Library for LED 8x8 Matrix
+ * MAX7219LED8x8 - Tinusaur MAX7219 Library for LED 8x8 Matrix
  *
  * @file: max7219led8x8.c
  * @created: 2014-07-18
@@ -22,7 +22,7 @@
 // --------------------------------------------------------------------
 
 void max7219s_init(void) {
-	MAX7219_init();
+	max7219_init();
 	scheduler_init();
 }
 
@@ -31,7 +31,7 @@ void max7219s_start(void) {
 }
 
 void max7219s_buffer_out(void) {
-	MAX7219_buffer_out();
+	max7219_buffer_out();
 }
 
 // --------------------------------------------------------------------
