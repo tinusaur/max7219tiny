@@ -1,7 +1,6 @@
-/*
+/**
  * MAX7219LED8x8 - Tinusaur MAX7219 Library for LED 8x8 Matrix
  *
- * @file: main.c
  * @created: 2014-07-12
  * @author: Neven Boyanov
  *
@@ -56,7 +55,7 @@ int main(void) {
 	};
 
 	// ---- Main Loop ----
-	while (1) {
+	for (;;) {
 		for (uint8_t i = 0; i <= 7; i++) {
 			for (uint8_t y = 0; y <= 7; y++) {
 				uint8_t d = data[i][y];
@@ -75,3 +74,5 @@ int main(void) {
 
 	return 0;
 }
+
+// ============================================================================

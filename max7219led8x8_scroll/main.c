@@ -192,7 +192,7 @@ int main(void) {
 	uint8_t scrolls_index = 0;
 	uint8_t screen_buffer[8] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 	uint8_t buffer_row;
-	while (1) {
+	for (;;) {
 		for (uint8_t screen_row = 8; screen_row >= 1; screen_row--) {
 			buffer_row = screen_row - 1;
 			// Output the buffer

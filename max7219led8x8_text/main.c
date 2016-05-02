@@ -56,7 +56,7 @@ int main(void) {
 	max7219_init();
 
 	// ---- Main Loop ----
-	while (1) {
+	for (;;) {
 		for (uint8_t c = ' '; c <= '_'; c++)
 		{
 			max7219_ext_char(c);

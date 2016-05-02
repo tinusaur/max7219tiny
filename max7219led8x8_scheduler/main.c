@@ -58,7 +58,7 @@ int main(void)
 
 	// ---- Main Loop ----
 	max7219s_start();
-	while (1) {
+	for (;;) {
 		uint8_t xp = 0, yp = 0;
 		for (uint8_t y = 0; y <= 7; y++) {
 			for (uint8_t x = 0; x <= 7; x++) {

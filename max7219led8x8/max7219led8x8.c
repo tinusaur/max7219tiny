@@ -1,15 +1,18 @@
-/*
+/**
  * MAX7219LED8x8 - Tinusaur MAX7219 Library for LED 8x8 Matrix
  *
- * @file: max7219led8x8.h
  * @created: 2014-07-12
  * @author: Neven Boyanov
+ *
+ * This is part of the Tinusaur/MAX7219LED8x8 project.
+ *
+ * Copyright (c) 2016 Neven Boyanov, Tinusaur Team. All Rights Reserved.
+ * Distributed as open source software under MIT License, see LICENSE.txt file.
+ * Please, as a favor, retain the link http://tinusaur.org to The Tinusaur Project.
  *
  * Source code available at: https://bitbucket.org/tinusaur/max7219led8x8
  *
  */
-
-// --------------------------------------------------------------------
 
 #include <stdlib.h>
 #include <avr/io.h>
@@ -17,7 +20,7 @@
 
 #include "max7219led8x8.h"
 
-// --------------------------------------------------------------------
+// ============================================================================
 
 void max7219_byte(uint8_t data)
 {
@@ -83,4 +86,4 @@ void max7219_buffer_row(uint8_t row, uint8_t y) {
 	max7219_buffer[y & 0b0111] = row;
 }
 
-// --------------------------------------------------------------------
+// ============================================================================

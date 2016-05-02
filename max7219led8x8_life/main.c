@@ -208,7 +208,7 @@ int main(void)
 	// life_board_init(life_oscillators_tricetongs);
 	// life_board_init(life_oscillators_tricetongs);
 	/*
-	while (1) {
+	for (;;) {
 		life_board_out();
 		_delay_ms(500);
 		life_board_turn();
@@ -219,7 +219,7 @@ int main(void)
 #define LIFE_BOARDS_NUM sizeof(life_boards) / sizeof(*life_boards)
 // Ref: https://en.wikibooks.org/wiki/C_Programming/Pointers_and_arrays
 
-	while (1) {
+	for (;;) {
 		for (uint8_t i = 0; i < LIFE_BOARDS_NUM; i++) {	// sizeof(life_boards)
 			life_board_init(*life_boards[i]);
 			for (uint8_t c = 0; c < 40; c++) {
