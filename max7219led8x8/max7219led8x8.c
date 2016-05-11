@@ -1,8 +1,8 @@
 /**
  * MAX7219LED8x8 - Tinusaur MAX7219 Library for LED 8x8 Matrix
  *
- * @created: 2014-07-12
- * @author: Neven Boyanov
+ * @created 2014-07-12
+ * @author Neven Boyanov
  *
  * This is part of the Tinusaur/MAX7219LED8x8 project.
  *
@@ -14,13 +14,16 @@
  *
  */
 
+// ============================================================================
+
 #include <stdlib.h>
 #include <avr/io.h>
 #include <util/delay.h>
 
 #include "max7219led8x8.h"
 
-// ============================================================================
+// ----------------------------------------------------------------------------
+
 
 void max7219_byte(uint8_t data)
 {

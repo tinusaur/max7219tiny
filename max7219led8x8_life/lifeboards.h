@@ -1,9 +1,16 @@
-/*
- * MAX7219LED8x8 Life - Boards for Conway's Game of Life
+/**
+ * MAX7219LED8x8 - Tinusaur MAX7219 Library for LED 8x8 Matrix
  *
- * @file: lifeboards.h
- * @created: 2014-07-19
- * @author: Neven Boyanov
+ * @created 2014-07-19
+ * @author Neven Boyanov
+ *
+ * Boards for Conway's Game of Life
+ *
+ * This is part of the Tinusaur/MAX7219LED8x8 project.
+ *
+ * Copyright (c) 2016 Neven Boyanov, Tinusaur Team. All Rights Reserved.
+ * Distributed as open source software under MIT License, see LICENSE.txt file.
+ * Please, as a favor, retain the link http://tinusaur.org to The Tinusaur Project.
  *
  * Source code available at: https://bitbucket.org/tinusaur/max7219led8x8
  *
@@ -142,6 +149,6 @@ life_board life_oscillators_tricetongs  = {
 	0b00000000
 	};
 
-// ----------------------------------------------------------------------------
+// ============================================================================
 
 #endif

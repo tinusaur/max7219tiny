@@ -1,9 +1,14 @@
-/*
- * MAX7219LED8x8 - Conway's Game of Life
+/**
+ * MAX7219LED8x8 - Tinusaur MAX7219 Library for LED 8x8 Matrix
  *
- * @file: main.c
- * @created: 2014-07-18
- * @author: Neven Boyanov
+ * @created 2014-07-18
+ * @author Neven Boyanov
+ *
+ * This is part of the Tinusaur/MAX7219LED8x8 project.
+ *
+ * Copyright (c) 2016 Neven Boyanov, Tinusaur Team. All Rights Reserved.
+ * Distributed as open source software under MIT License, see LICENSE.txt file.
+ * Please, as a favor, retain the link http://tinusaur.org to The Tinusaur Project.
  *
  * Source code available at: https://bitbucket.org/tinusaur/max7219led8x8
  *
@@ -11,35 +16,38 @@
 
 // ============================================================================
 
-#define F_CPU 1000000UL
+// #define F_CPU 1000000UL
+// NOTE: The F_CPU (CPU frequency) should not be defined in the source code.
+//       It should be defined in either (1) Makefile; or (2) in the IDE. 
 
 #include <stdlib.h>
 #include <avr/io.h>
 #include <util/delay.h>
 
-// --------------------------------------------------------------------
+// Change the ports, if necessary.
+// #define MAX7219_DIN		PB0	// DI,	Pin 3 on LED8x8 Board
+// #define MAX7219_CS		PB1	// CS,	Pin 4 on LED8x8 Board
+// #define MAX7219_CLK		PB2	// CLK,	Pin 5 on LED8x8 Board
 
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//                ATtiny
-//               25/45/85
-//             +----------+   (-)---GND--
-//           --+ PB5  Vcc +---(+)---VCC--
-// ---OWOWOD---+ PB3  PB2 +---------CLK--
-//           --+ PB4  PB1 +----------CS--
-// ------(-)---+ GND  PB0 +---------DIN--
-//             +----------+
+#include "max7219led8x8/max7219led8x8.h"
+#include "max7219led8x8/max7219led8x8s.h"
+#include "max7219led8x8/scheduler.h"
+
 //
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//                 ATtiny
+//                25/45/85
+//              +----------+   (-)--GND--
+//      (RST)---+ PB5  Vcc +---(+)--VCC--
+// --[OWOWOD]---+ PB3  PB2 +--------CLK--
+//           ---+ PB4  PB1 +---------CS--
+// -------(-)---+ GND  PB0 +--------DIN--
+//              +----------+
+//
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//
 
-#define MAX7219_DIN		PB0	// DI,	Pin 3 on LED8x8 Board
-#define MAX7219_CS		PB1	// CS,	Pin 4 on LED8x8 Board
-#define MAX7219_CLK		PB2	// CLK,	Pin 5 on LED8x8 Board
-
-#include "../max7219led8x8/max7219led8x8.h"
-#include "../max7219led8x8/max7219led8x8s.h"
-#include "../max7219led8x8/scheduler.h"
-
-// ============================================================================
+// ----------------------------------------------------------------------------
 
 #define LED1_PORT PB4
 
@@ -168,10 +176,10 @@ void life_board_rand(void) {
 }
 */
 
-// ============================================================================
+// ----------------------------------------------------------------------------
 
-int main(void)
-{
+int main(void) {
+
 	// ---- Initialization ----
 	max7219s_init();
 	// Setup LED, DDRB - Data Direction Register, Port B
@@ -233,6 +241,8 @@ int main(void)
 			_delay_ms(1000);
 		}
 	}
-	
-	return (0);
+
+	return 0;
 }
+
+// ============================================================================

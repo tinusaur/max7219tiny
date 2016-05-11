@@ -1,6 +1,15 @@
 CHANGES
 
 
+2015-05-11 (nb)
+
+Source code reformatting and restructuring for better readability. Updated and improved Makefile and other text files.
+
+- Source code reformatting and restructuring for better readability.
+- Updated and improved Makefile files.
+- Updated README and other text files.
+
+
 2015-04-11 (nb)
 
 Function names changed to lower case. Fixed Makefile files. Improved test scripts.

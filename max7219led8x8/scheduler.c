@@ -1,15 +1,20 @@
-/*
+/**
  * Scheduler - Tinusaur Scheduler
  *
- * @file: scheduler.c
- * @created: 2014-07-18
- * @author: Neven Boyanov
+ * @created 2014-07-18
+ * @author Neven Boyanov
+ *
+ * This is part of the Tinusaur project.
+ *
+ * Copyright (c) 2016 Neven Boyanov, Tinusaur Team. All Rights Reserved.
+ * Distributed as open source software under MIT License, see LICENSE.txt file.
+ * Please, as a favor, retain the link http://tinusaur.org to The Tinusaur Project.
  *
  * Source code available at: https://bitbucket.org/tinusaur/max7219led8x8
  *
  */
 
-// --------------------------------------------------------------------
+// ============================================================================
 
 #include <stdlib.h>
 #include <avr/io.h>
@@ -19,7 +24,7 @@
 #include "max7219led8x8s.h"
 #include "scheduler.h"
 
-// --------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 
 //		Timer Pre-scaling
 //		CS02 CS01 CS00 Description
@@ -33,7 +38,7 @@
 //		1    1    0    External clock source on T0 pin. Clock on falling edge.
 //		1    1    1    External clock source on T0 pin. Clock on rising edge.
 
-// --------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 
 void scheduler_init(void) {
 	// Setup Timer
@@ -56,4 +61,4 @@ ISR(TIMER0_COMPA_vect)
    	// Note: No need to clear flags in TIFR - done automatically
 }
 
-// --------------------------------------------------------------------
+// ============================================================================

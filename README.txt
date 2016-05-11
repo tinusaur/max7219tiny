@@ -6,12 +6,9 @@ MAX7219Led8x8 - Tinusaur MAX7219 Library for LED 8x8 Matrix
  Please, as a favor, retain the link http://tinusaur.org to The Tinusaur Project.
 -----------------------------------------------------------------------------------
 
-MAX7219Led8x8 is a C library for working with the MAX7219 display driver to control 8x8 LED matrix. It is intended to be used with the Tinusaur board but should also work with any other board based on ATtiny85 or similar microcontroller.
+This is a C library for working with the MAX7219 display driver to control 8x8 LED matrix. It is intended to be used with the Tinusaur board but should also work with any other board based on ATtiny85 or similar microcontroller.
 
-The MAX7219Led8x8 library is written in plain C and does not require any additional libraries to function except those that come with the WinAVR SDK.
-
-Modules
-
+Folders and modules:
  - max7219led8x8            -
  - max7219led8x8_life       -
  - max7219led8x8_scheduler  -
@@ -19,7 +16,9 @@ Modules
  - max7219led8x8_test       -
  - max7219led8x8_text       -
 
+This was developed with and tested on the following microcontrollers: ATtiny85, ATtiny45, ATtiny25.
 
+This library is written in plain C and does not require any additional libraries to function except those that come with the WinAVR SDK.
 
 ==== Links ====
 
