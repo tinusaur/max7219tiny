@@ -3,6 +3,11 @@ CHANGES
 
 2015-05-15 (nb)
 
+Updated testing scripts to accommodate latest "scheduler" structural changes. Updated Makefile files.
+
+
+2015-05-15 (nb)
+
 Functions max7219_buffer_* renamed to max7219b_*. New max7219bs_init_start function replaces the buffered-scheduled "max7219led8x8s" module.
 
 

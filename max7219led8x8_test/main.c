@@ -69,11 +69,11 @@ int main(void) {
 			for (uint8_t y = 0; y <= 7; y++) {
 				uint8_t d = data[i][y];
 				for (uint8_t x = 0; x <= 7; x++) {
-					max7219_buffer_out();	// Output the buffer
+					max7219b_out();	// Output the buffer
 					if ((d & 1) == 1)
-						max7219_buffer_set(x, y);	// Set pixel
+						max7219b_set(x, y);	// Set pixel
 					else
-						max7219_buffer_clr(x, y);	// Clear pixel
+						max7219b_clr(x, y);	// Clear pixel
 					d = d >> 1;
 					_delay_ms(20);
 				}

@@ -20,9 +20,11 @@
 // NOTE: The F_CPU (CPU frequency) should not be defined in the source code.
 //       It should be defined in either (1) Makefile; or (2) in the IDE. 
 
-#include <stdlib.h>
+#include <stdint.h>
 #include <avr/io.h>
 #include <util/delay.h>
+
+#include "tinyavrlib/scheduler.h"
 
 // Change the ports, if necessary.
 // #define MAX7219_DIN		PB0	// DI,	Pin 3 on LED8x8 Board
@@ -30,8 +32,6 @@
 // #define MAX7219_CLK		PB2	// CLK,	Pin 5 on LED8x8 Board
 
 #include "max7219led8x8/max7219led8x8.h"
-#include "max7219led8x8/max7219led8x8s.h"
-#include "max7219led8x8/scheduler.h"
 
 //
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -46,15 +46,6 @@
 //
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-
-// ----------------------------------------------------------------------------
-
-#define LED1_PORT PB4
-
-void scheduler_userfunc(void) {
-	PORTB ^= (1 << LED1_PORT);
-	max7219s_buffer_out();	// Output the buffer
-}
 
 // ----------------------------------------------------------------------------
 
@@ -120,7 +111,7 @@ void life_board_init(life_board buffer) {
 
 void life_board_out(void) {
 	for (uint8_t y = 0; y <= 7; y++) {
-		max7219_buffer_row(LIFE_BOARD_ROW(y), y);
+		max7219b_row(LIFE_BOARD_ROW(y), y);
 	}
 }
 
@@ -181,9 +172,7 @@ void life_board_rand(void) {
 int main(void) {
 
 	// ---- Initialization ----
-	max7219s_init();
-	// Setup LED, DDRB - Data Direction Register, Port B
-	DDRB |= (1 << LED1_PORT); // Set port as LED output
+	max7219_init();
 
 	life_board *life_boards[] = {
 		&life_oscillators_blinkers,
@@ -200,29 +189,9 @@ int main(void) {
 		&life_oscillators_tricetongs
 	};
 	
+	max7219bs_init_start();
+	
 	// ---- Main Loop ----
-	max7219s_start();
-	// life_board_rand();
-	// life_board_init(life_board_sample1);
-	// life_board_init(life_oscillators_blinkers);
-	// life_board_init(life_oscillators_toad_beacon);
-	// life_board_init(life_oscillators_octagon);
-	// life_board_init(life_oscillators_fumarole1);
-	// life_board_init(life_oscillators_fumarole2);
-	// life_board_init(life_oscillators_glider);
-	// life_board_init(life_oscillators_rpentomino);
-	// life_board_init(life_oscillators_mold);
-	// life_board_init(life_oscillators_jam);
-	// life_board_init(life_oscillators_tricetongs);
-	// life_board_init(life_oscillators_tricetongs);
-	/*
-	for (;;) {
-		life_board_out();
-		_delay_ms(500);
-		life_board_turn();
-		life_board2_copy();
-	}
-	*/
 
 #define LIFE_BOARDS_NUM sizeof(life_boards) / sizeof(*life_boards)
 // Ref: https://en.wikibooks.org/wiki/C_Programming/Pointers_and_arrays
