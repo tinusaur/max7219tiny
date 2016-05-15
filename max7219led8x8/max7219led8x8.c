@@ -21,12 +21,11 @@
 #include <util/delay.h>
 
 #include "max7219led8x8.h"
+#include "tinyavrlib/scheduler.h"
 
 // ----------------------------------------------------------------------------
 
-
-void max7219_byte(uint8_t data)
-{
+void max7219_byte(uint8_t data) {
 	PORTB &= ~(1 << MAX7219_CS);	// Set to LOW
 	for(uint8_t i = 8; i >= 1; i--)
 	{
@@ -40,16 +39,14 @@ void max7219_byte(uint8_t data)
 	}
 }
 
-void max7219_word(uint8_t address, uint8_t data)
-{
+void max7219_word(uint8_t address, uint8_t data) {
 	PORTB &= ~(1 << MAX7219_CS);	// Set to LOW
 	max7219_byte(address);			//
 	max7219_byte(data);				//
 	PORTB |= (1 << MAX7219_CS);		// Set to HIGH
 }
 
-void max7219_init(void)
-{
+void max7219_init(void) {
 	DDRB |= (1 << MAX7219_CLK);	// Set port as output
 	DDRB |= (1 << MAX7219_CS);	// Set port as output
 	DDRB |= (1 << MAX7219_DIN);	// Set port as output
@@ -65,28 +62,44 @@ void max7219_row(uint8_t address, uint8_t data) {
 	if (address >= 1 && address <= 8) max7219_word(address, data);
 }
 
-uint8_t max7219_buffer[8] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+// ----------------------------------------------------------------------------
 
-void max7219_buffer_out(void) {
+uint8_t max7219_buffer[8] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+// TODO: replace this with pointer to buffer specified by the calling application.
+// TODO: buffer length should be also specified.
+
+void max7219b_out(void) {
 	// Output the buffer
 	for (uint8_t row = 1; row <= 8; row++)
 		max7219_row(row, max7219_buffer[row - 1]);
 }
 
-void max7219_buffer_set(uint8_t x, uint8_t y) {
+void max7219b_set(uint8_t x, uint8_t y) {
 	uint8_t sx = 7 - (x & 0b0111);
 	uint8_t sy = (y & 0b0111);
 	max7219_buffer[sy] |= (1 << sx);
 }
 
-void max7219_buffer_clr(uint8_t x, uint8_t y) {
+void max7219b_clr(uint8_t x, uint8_t y) {
 	uint8_t sx = 7 - (x & 0b0111);
 	uint8_t sy = (y & 0b0111);
 	max7219_buffer[sy] &= ~(1 << sx);
 }
 
-void max7219_buffer_row(uint8_t row, uint8_t y) {
+void max7219b_row(uint8_t row, uint8_t y) {
 	max7219_buffer[y & 0b0111] = row;
+}
+
+// ----------------------------------------------------------------------------
+
+void __max7219bs_scheduler_userfunc(uint32_t scheduler_tick) {
+	max7219b_out();
+}
+
+void max7219bs_init_start(void) {
+	scheduler_init(__max7219bs_scheduler_userfunc);
+	scheduler_reinit(SCHEDULER_TCCR0B_1024, SCHEDULER_OCR0A_MIN);	// Adjust, if necessary
+	scheduler_start();
 }
 
 // ============================================================================

@@ -16,25 +16,7 @@
 
 // ============================================================================
 
-#include <stdint.h>
-
-#include "max7219led8x8.h"
-#include "max7219led8x8s.h"
-#include "scheduler.h"
-
-// ----------------------------------------------------------------------------
-
-void max7219s_init(void) {
-	max7219_init();
-	scheduler_init();
-}
-
-void max7219s_start(void) {
-	scheduler_start(20);
-}
-
-void max7219s_buffer_out(void) {
-	max7219_buffer_out();
-}
+// NOTE: NO LONGER USED AND NEEDED
+// TODO: REMOVE THIS
 
 // ============================================================================

@@ -42,10 +42,25 @@ void max7219_byte(uint8_t data);
 void max7219_word(uint8_t address,  uint8_t data);
 void max7219_init(void);
 void max7219_row(uint8_t address,uint8_t data);
-void max7219_buffer_out(void);
-void max7219_buffer_set(uint8_t x, uint8_t y);
-void max7219_buffer_clr(uint8_t x, uint8_t y);
-void max7219_buffer_row(uint8_t row, uint8_t y);
+
+// ----------------------------------------------------------------------------
+
+// Buffered output functions.
+// NOTE: The output MUST be buffered since there is no reading function
+//       from the LED MAX7219 controlled.
+
+void max7219b_out(void);
+void max7219b_set(uint8_t x, uint8_t y);
+void max7219b_clr(uint8_t x, uint8_t y);
+void max7219b_row(uint8_t row, uint8_t y);
+
+// ----------------------------------------------------------------------------
+
+// Buffered output scheduler functions.
+// NOTE: It is much more convenient if the buffer is sent out the controller
+//       automatically and the application just sets pixels in the buffer.
+
+void max7219bs_init_start(void);
 
 // ============================================================================
 
