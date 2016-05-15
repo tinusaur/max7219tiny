@@ -1,6 +1,11 @@
 CHANGES
 
 
+2015-05-15 (nb)
+
+Scheduler moved to TinyAVRLib project. Pending updates to accommodate changes. 
+
+
 2015-05-11 (nb)
 
 Source code reformatting and restructuring for better readability. Updated and improved Makefile and other text files.
