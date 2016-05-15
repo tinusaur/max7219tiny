@@ -115,7 +115,7 @@ EXTLIBSDIR = ../
 #
 # Source files
 #	Add external libraries source code files here
-EXTLIBSOURCES = max7219led8x8/max7219led8x8.c
+EXTLIBSOURCES = max7219led8x8/max7219led8x8.c tinyavrlib/scheduler.c
 #
 # Construct list of external libraries source files:
 #	DO NOT edit this line
