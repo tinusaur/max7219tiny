@@ -21,7 +21,6 @@
 #include <util/delay.h>
 
 #include "max7219led8x8.h"
-#include "tinyavrlib/scheduler.h"
 
 // ----------------------------------------------------------------------------
 
@@ -92,14 +91,8 @@ void max7219b_row(uint8_t row, uint8_t y) {
 
 // ----------------------------------------------------------------------------
 
-void __max7219bs_scheduler_userfunc(uint32_t scheduler_tick) {
+void max7219bs_scheduler_userfunc(uint32_t scheduler_tick) {
 	max7219b_out();
-}
-
-void max7219bs_init_start(void) {
-	scheduler_init(__max7219bs_scheduler_userfunc);
-	scheduler_reinit(SCHEDULER_TCCR0B_1024, SCHEDULER_OCR0A_MIN);	// Adjust, if necessary
-	scheduler_start();
 }
 
 // ============================================================================

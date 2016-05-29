@@ -60,7 +60,8 @@ void max7219b_row(uint8_t row, uint8_t y);
 // NOTE: It is much more convenient if the buffer is sent out the controller
 //       automatically and the application just sets pixels in the buffer.
 
-void max7219bs_init_start(void);
+void max7219bs_scheduler_userfunc(uint32_t scheduler_tick);
+// void max7219bs_init_start(void);
 
 // ============================================================================
 
