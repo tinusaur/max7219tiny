@@ -189,7 +189,10 @@ int main(void) {
 		&life_oscillators_tricetongs
 	};
 	
-	max7219bs_init_start();
+	// max7219bs_init_start();
+	scheduler_init(max7219bs_scheduler_userfunc);
+	scheduler_reinit(SCHEDULER_TCCR0B_1024, SCHEDULER_OCR0A_MIN);	// Adjust, if necessary
+	scheduler_start();
 	
 	// ---- Main Loop ----
 

@@ -3,6 +3,8 @@ CHANGES
 
 2015-05-29 (nb)
 
+Updated testing scripts to reflect latest changes.
+
 Removed the unused max7219bs_init_start function. Exposed the max7219bs_scheduler_userfunc function. No Scheduler dependency.
 
 Removed the used max7219led8x8s files.
