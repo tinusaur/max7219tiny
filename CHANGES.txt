@@ -1,6 +1,11 @@
 CHANGES
 
 
+2015-05-29 (nb)
+
+Removed the used max7219led8x8s files.
+
+
 2015-05-15 (nb)
 
 Updated testing scripts to accommodate latest "scheduler" structural changes. Updated Makefile files.
