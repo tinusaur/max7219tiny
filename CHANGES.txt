@@ -1,6 +1,16 @@
 CHANGES
 
 
+2016-12-03 (nb)
+
+IMPORTANT: Changed max7219b_row, parameters swapped. New function max7219b_get.
+
+- IMPORTANT: Changed max7219b_row, parameters swapped.
+- New function max7219b_get.
+- Updated the Life game code.
+- Source code formatting.
+
+
 2015-05-29 (nb)
 
 Updated testing scripts to reflect latest changes.

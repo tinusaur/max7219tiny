@@ -111,7 +111,7 @@ void life_board_init(life_board buffer) {
 
 void life_board_out(void) {
 	for (uint8_t y = 0; y <= 7; y++) {
-		max7219b_row(LIFE_BOARD_ROW(y), y);
+		max7219b_row(y, LIFE_BOARD_ROW(y));
 	}
 }
 
