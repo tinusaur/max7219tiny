@@ -49,27 +49,35 @@
 
 // ----------------------------------------------------------------------------
 
-void max7219_ext_char(uint8_t c) {
-	for(uint8_t i = 1; i < 9; i++)
-		max7219_row(i, pgm_read_byte(&max7219led8x8_font[c - 32][i - 1]));
-}
+#define MAX7219_SEG_NUM 3	// Segments, number of 8x8 matrices
+#define MAX7219_BUFFER_SIZE	MAX7219_SEG_NUM * 8
 
-void max7219_ext_charxy(uint8_t c, uint8_t x, uint8_t y);	// TODO: Implement this.
+uint8_t max7219_buffer[MAX7219_BUFFER_SIZE];
+
+// ----------------------------------------------------------------------------
+
+// TODO: Move this function to a library.
+
+void max7219b_char(uint8_t x, uint8_t c) {
+	for(uint8_t i = 0; i <= 7; i++)
+		max7219b_col(x + i, pgm_read_byte(&max7219led8x8_font[((c - 32) << 3) + i]));
+}
 
 // ----------------------------------------------------------------------------
 
 int main(void) {
 
 	// ---- Initialization ----
-	max7219_init();
+	max7219b_init(max7219_buffer, MAX7219_BUFFER_SIZE);
 
 	// ---- Main Loop ----
 	for (;;) {
-		for (uint8_t c = ' '; c <= '_'; c++) {
-			max7219_ext_char(c);
-			_delay_ms(1000);
+		for (uint8_t c = ' '; c <= 127; c++) {
+			max7219b_char(0, c);
+			max7219b_char(8, c + 1);
+			max7219b_out();	// Output the buffer
+			_delay_ms(500);
 		}
-		_delay_ms(400);
 	}
 
 	return 0;

@@ -2,7 +2,7 @@ TODO
 
 2015-01-01 (nb)
 
-- Implement and start using these functions: max7219s_buffer_set, max7219s_buffer_clr.
+- Implement and start using these functions: max7219s_buffer_set, max7219s_buffer_clr. [x]
 
 
 2014-07-20 (nb)

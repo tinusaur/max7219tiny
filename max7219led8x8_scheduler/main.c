@@ -49,17 +49,18 @@
 
 // ----------------------------------------------------------------------------
 
-void scheduler_userfunc(uint32_t scheduler_tick) {
-	max7219b_out();
-}
+#define MAX7219_SEG_NUM 2	// Segments, number of 8x8 matrices
+#define MAX7219_BUFFER_SIZE	MAX7219_SEG_NUM * 8
+
+uint8_t max7219_buffer[MAX7219_BUFFER_SIZE];
 
 // ----------------------------------------------------------------------------
 
 int main(void) {
 
 	// ---- Initialization ----
-	max7219_init();
-	scheduler_init(scheduler_userfunc);
+	max7219b_init(max7219_buffer, MAX7219_BUFFER_SIZE);
+	scheduler_init(max7219bs_scheduler_userfunc);
 	// scheduler_reinit(SCHEDULER_TCCR0B_1024, SCHEDULER_OCR0A_DEFAULT);	// Adjust, if necessary
 	scheduler_start();
 
@@ -67,10 +68,10 @@ int main(void) {
 	for (;;) {
 		uint8_t xp = 0, yp = 0;
 		for (uint8_t y = 0; y <= 7; y++) {
-			for (uint8_t x = 0; x <= 7; x++) {
+			for (uint8_t x = 0; x <= 15; x++) {
 				if (x == 0 && y == 0) xp = yp = 7;
 				max7219b_set(x, y);	// Set pixel
-				_delay_ms(100);
+				_delay_ms(80);
 				max7219b_clr(x, y);	// Clear pixel
 			}
 		}

@@ -49,35 +49,62 @@
 
 int main(void) {
 
-	// ---- Initialization ----
-	max7219_init();
-	
-	uint8_t data[8][8] = {
-		{ 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, },
-		{ 0xAA, 0x55, 0xAA, 0x55, 0xAA, 0x55, 0xAA, 0x55, },
-		{ 0x55, 0xAA, 0x55, 0xAA, 0x55, 0xAA, 0x55, 0xAA, },
-		{ 0xCC, 0xCC, 0x33, 0x33, 0xCC, 0xCC, 0x33, 0x33, },
-		{ 0x33, 0x33, 0xCC, 0xCC, 0x33, 0x33, 0xCC, 0xCC, },
-		{ 0x01, 0x03, 0x07, 0x0F, 0x1F, 0x3F, 0x7F, 0xFF, },
-		{ 0xFF, 0x7F, 0x3F, 0x1F, 0x0F, 0x07, 0x03, 0x01, },
-		{ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, },
+	uint8_t data[][8] = {
+	{ 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, },	// Pattern, full
+	{	0b00000100,
+		0b00000110,
+		0b11111111,
+		0b00100110,
+		0b01100100,
+		0b11111111,
+		0b01100000,
+		0b00100000,	},	// ARROWS #1 (bottom to top)
+	{	0b00100000,
+		0b01100000,
+		0b11111111,
+		0b01100100,
+		0b00100110,
+		0b11111111,
+		0b00000110,
+		0b00000100,	},	// ARROWS #2 (top to bottom)
+	{	0b01111110,
+		0b10000001,
+		0b10010101,
+		0b10100001,
+		0b10100001,
+		0b10010101,
+		0b10000001,
+		0b01111110,	},	// TEST smiley face :)
+	{ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, },	// Pattern, empty
 	};
 
+#define MAX7219_SEG_NUM 2	// Segments, number of 8x8 matrices
+#define MAX7219_BUFFER_SIZE	MAX7219_SEG_NUM * 8
+
+	uint8_t max7219_buffer[MAX7219_BUFFER_SIZE];
+
+	// ---- Initialization ----
+	max7219b_init(max7219_buffer, MAX7219_BUFFER_SIZE);
+	
 	// ---- Main Loop ----
 	for (;;) {
-		for (uint8_t i = 0; i <= 7; i++) {
-			for (uint8_t y = 0; y <= 7; y++) {
-				uint8_t d = data[i][y];
-				for (uint8_t x = 0; x <= 7; x++) {
-					max7219b_out();	// Output the buffer
-					if ((d & 1) == 1)
+		for (uint8_t i = 0; i <= sizeof(data) / 8 - 1; i++) {
+			for (uint8_t x = 0; x <= 7; x++) {
+				uint8_t d = data[i][x];
+				for (uint8_t y = 0; y <= 7; y++) {
+					if ((d & 1) == 1) {
 						max7219b_set(x, y);	// Set pixel
-					else
+						max7219b_clr(x + 8, y);	// Set pixel
+					} else {
 						max7219b_clr(x, y);	// Clear pixel
-					d = d >> 1;
-					_delay_ms(20);
+						max7219b_set(x + 8, y);	// Clear pixel
+					}
+					d >>= 1;
+					max7219b_out();	// Output the buffer
+					_delay_ms(10);
 				}
 			}
+			_delay_ms(1000);
 		}
 	}
 

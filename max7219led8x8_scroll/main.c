@@ -25,6 +25,8 @@
 #include <util/delay.h>
 #include <avr/pgmspace.h>
 
+#include "tinyavrlib/scheduler.h"
+
 // Change the ports, if necessary.
 // #define MAX7219_DIN		PB0	// DI,	Pin 3 on LED8x8 Board
 // #define MAX7219_CS		PB1	// CS,	Pin 4 on LED8x8 Board
@@ -66,6 +68,7 @@
 #define SCROLLXX_____X 0b11000001
 #define SCROLLXX____XX 0b11000011
 #define SCROLLXX___XXX 0b11000111
+#define SCROLLXXX__XXX 0b11100111
 
 #define SCROLLXXX_____ 0b11100000
 #define SCROLLXXX____X 0b11100001
@@ -86,7 +89,7 @@
 #define SCROLLX_X_X_X_ 0b10101010
 #define SCROLLXXXXXXXX 0b11111111
 
-const uint8_t scrolls[100] PROGMEM = {
+const uint8_t scrolls[] PROGMEM = {
 	SCROLL________,
 	SCROLL________,
 	SCROLL________,
@@ -140,6 +143,12 @@ const uint8_t scrolls[100] PROGMEM = {
 	SCROLLX______X,
 	SCROLLXX____XX,
 	SCROLLXX____XX,
+	SCROLLXXX__XXX,
+	SCROLLXXX__XXX,
+	SCROLLXXX__XXX,
+	SCROLLXXX__XXX,
+	SCROLLXX____XX,
+	SCROLLXX____XX,
 	SCROLLX______X,
 	SCROLLX______X,
 	SCROLL________,
@@ -147,8 +156,6 @@ const uint8_t scrolls[100] PROGMEM = {
 	SCROLL________,
 	SCROLL___X____,
 	SCROLL___X____,
-	SCROLL___X____,
-	SCROLL___XX___,
 	SCROLL___XX___,
 	SCROLL___XX___,
 	SCROLL___X____,
@@ -157,7 +164,9 @@ const uint8_t scrolls[100] PROGMEM = {
 	SCROLL___X___X,
 	SCROLL___X___X,
 	SCROLL___X____,
-	SCROLL____X___,
+	SCROLL___X____,
+	SCROLL___XX___,
+	SCROLL___XX___,
 	SCROLL____X___,
 	SCROLL____X___,
 	SCROLL________,
@@ -176,45 +185,50 @@ const uint8_t scrolls[100] PROGMEM = {
 	SCROLLX______X,
 	SCROLL________,
 	SCROLL________,
+	SCROLL________,
+	SCROLL________,
+	SCROLLX_X_X_X_,
+	SCROLL_X_X_X_X,
+	SCROLLX_X_X_X_,
+	SCROLL_X_X_X_X,
+	SCROLLXXXXXXXX,
 	SCROLLXXXXXXXX,
 	SCROLL________,
-	SCROLLXXXXXXXX,
 	SCROLL________,
-	SCROLLXXXXXXXX,
 	SCROLL________,
-	SCROLLXXXXXXXX,
 	SCROLL________,
-	SCROLLXXXXXXXX,
 	SCROLL________,
-	SCROLLXXXXXXXX
+	SCROLL________,
 };
+
+// ----------------------------------------------------------------------------
+
+#define MAX7219_SEG_NUM 2	// Segments, number of 8x8 matrices
+#define MAX7219_BUFFER_SIZE	MAX7219_SEG_NUM * 8
+
+uint8_t max7219_buffer[MAX7219_BUFFER_SIZE];
 
 // ----------------------------------------------------------------------------
 
 int main(void) {
 
 	// ---- Initialization ----
-	max7219_init();
+	max7219b_init(max7219_buffer, MAX7219_BUFFER_SIZE);
+	scheduler_init(max7219bs_scheduler_userfunc);
+	// scheduler_reinit(SCHEDULER_TCCR0B_1024, SCHEDULER_OCR0A_DEFAULT);	// Adjust, if necessary
+	scheduler_start();
 
 	// ---- Main Loop ----
-	uint8_t scrolls_index = 0;
-	uint8_t screen_buffer[8] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-	uint8_t buffer_row;
 	for (;;) {
-		for (uint8_t screen_row = 8; screen_row >= 1; screen_row--) {
-			buffer_row = screen_row - 1;
-			// Output the buffer
-			max7219_row(screen_row, screen_buffer[buffer_row]);
-
-			// Scroll the row down
-			if (buffer_row > 0) {
-				screen_buffer[buffer_row] = screen_buffer[buffer_row - 1];
-			} else {
-				screen_buffer[buffer_row] = pgm_read_byte(&scrolls[scrolls_index++]);
-				if (scrolls_index >= sizeof(scrolls) - 1) scrolls_index = 0;
-			}
+		for (uint8_t i = 0; i < sizeof(scrolls); i++) {
+			max7219b_col(MAX7219_BUFFER_SIZE - 1, pgm_read_byte(&scrolls[i]));
+			max7219b_left();
+			/*
+			max7219b_col(0, pgm_read_byte(&scrolls[i]));
+			max7219b_right();
+			*/
+			_delay_ms(50);
 		}
-		_delay_ms(150);
 	}
 
 	return 0;

@@ -1,6 +1,23 @@
 CHANGES
 
 
+2017-01-01 (nb)
+
+IMPORTANT: MAJOR CHANGES - multiple matrices implementation in the library. Check Commit log for more details.
+
+- Rewritten completely the max7219b_out function to handle multiple matrices.
+- New function max7219b_init with advanced initialization features.
+- New function max7219b_left improvements scrolling to the left.
+- Replaced, function max7219b_row by the max7219b_col.
+- Improved, optimized function max7219_byte.
+- Improved max7219b_set, max7219b_clr, now check buffer boundaries. 
+- New data in the "max7219led8x8f.h" font file, all characters included how, up to ASCII code 127.
+- Life game, Scheduler, Scroll, Test, Text: sample code updated to the latest library, some other optimizations and improvements.
+- Updated, improved comments in the source code.
+- Updated sample HEX files.
+- Updated TODO file.
+
+
 2016-12-03 (nb)
 
 IMPORTANT: Changed max7219b_row, parameters swapped. New function max7219b_get.
