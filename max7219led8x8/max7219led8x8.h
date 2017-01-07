@@ -40,7 +40,7 @@
 
 void max7219_byte(uint8_t data);
 void max7219_word(uint8_t address, uint8_t data);
-void max7219_init(void);
+void max7219_init(uint8_t seg_num);
 void max7219_row(uint8_t address, uint8_t data);
 
 // ----------------------------------------------------------------------------
@@ -61,11 +61,10 @@ void max7219b_left(void);
 // ----------------------------------------------------------------------------
 
 // Buffered output scheduler functions.
-// NOTE: It is much more convenient if the buffer is sent out the controller
+// NOTE: It is much more convenient if the buffer is sent out to the controller
 //       automatically and the application just sets pixels in the buffer.
 
 void max7219bs_scheduler_userfunc(uint32_t scheduler_tick);
-// void max7219bs_init_start(void);
 
 // ============================================================================
 

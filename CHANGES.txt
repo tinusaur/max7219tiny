@@ -1,6 +1,14 @@
 CHANGES
 
 
+2017-01-08 (nb)
+
+Fixes bug - not working with more than 2 segments. Improved initialization, updated samples.
+
+- Function max7219_init improved: initializes all segment separately, now requires number of segments to initialize. Uses init sequence data array. Fixes bug - not working with more than 2 segments.
+- Samples updated and rebuilt. HEX files updated.
+
+
 2017-01-01 (nb)
 
 IMPORTANT: MAJOR CHANGES - multiple matrices implementation in the library. Check Commit log for more details.

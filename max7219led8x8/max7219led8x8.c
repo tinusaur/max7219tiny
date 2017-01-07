@@ -26,15 +26,14 @@
 // ----------------------------------------------------------------------------
 
 void max7219_byte(uint8_t data) {
-	// PORTB &= ~(1 << MAX7219_CS);	// Set to LOW, not necessary - done in the max7219_word
 	for(uint8_t i = 8; i >= 1; i--) {
 		PORTB &= ~(1 << MAX7219_CLK);	// Set CLK to LOW
 		if (data & 0x80)				// Mask the MSB of the data
 			PORTB |= (1 << MAX7219_DIN);	// Set DIN to HIGH
 		else
 			PORTB &= ~(1 << MAX7219_DIN);	// Set DIN to LOW
-		data <<= 1;
 		PORTB |= (1 << MAX7219_CLK);		// Set CLK to HIGH
+		data <<= 1;
 	}
 }
 
@@ -46,16 +45,36 @@ void max7219_word(uint8_t address, uint8_t data) {
 	PORTB &= ~(1 << MAX7219_CLK);	// Set CLK to LOW
 }
 
-void max7219_init(void) {
+void max7219_init(uint8_t seg_num) {
+	uint8_t initseq[] = { 
+		0x09, 0x00,	// Decode-Mode Register, 00 = No decode
+		0x0a, 0x01,	// Intensity Register, 0x00 .. 0x0f
+		0x0b, 0x07,	// Scan-Limit Register, 0x07 to show all lines
+		0x0c, 0x01,	// Shutdown Register, 0x01 = Normal Operation
+		0x0f, 0x00,	// Display-Test Register, 0x00 = Normal Operation
+		};
 	DDRB |= (1 << MAX7219_CLK);	// Set CLK port as output
 	DDRB |= (1 << MAX7219_CS);	// Set CS port as output
 	DDRB |= (1 << MAX7219_DIN);	// Set DIN port as output
 	_delay_ms(50);	// TODO: Q: Is this necessary?
-	max7219_word(0x09, 0x00);	// Decode-Mode Register, 00 = No decode
-	max7219_word(0x0a, 0x01);	// Intensity Register, 0x00 .. 0x0f
-	max7219_word(0x0b, 0x07);	// Scan-Limit Register, 0x07 to show all lines
-	max7219_word(0x0c, 0x01);	// Shutdown Register, 0x01 = Normal Operation
-	max7219_word(0x0f, 0x00);	// Display-Test Register, 0x00 = Normal Operation
+	uint8_t i = 0;
+	while (i < sizeof(initseq)) {
+		uint8_t opcode = initseq[i++];
+		uint8_t opdata = initseq[i++];
+		PORTB &= ~(1 << MAX7219_CLK);	// Set CLK to LOW
+		PORTB &= ~(1 << MAX7219_CS);	// Set CS to LOW (start of transmission)
+		for (uint8_t seg = 0; seg < seg_num; seg++) {
+			max7219_byte(opcode);	// Send the opcode out.
+			max7219_byte(opdata);	// Send the opdata out.
+		}
+		PORTB |= (1 << MAX7219_CS);		// Set CS to HIGH (end of transmission)				
+		PORTB &= ~(1 << MAX7219_CLK);	// Set CLK to LOW
+	}
+	// max7219_word(0x09, 0x00);	// Decode-Mode Register, 00 = No decode
+	// max7219_word(0x0a, 0x01);	// Intensity Register, 0x00 .. 0x0f
+	// max7219_word(0x0b, 0x07);	// Scan-Limit Register, 0x07 to show all lines
+	// max7219_word(0x0c, 0x01);	// Shutdown Register, 0x01 = Normal Operation
+	// max7219_word(0x0f, 0x00);	// Display-Test Register, 0x00 = Normal Operation
 }
 
 void max7219_row(uint8_t address, uint8_t data) {
@@ -72,31 +91,23 @@ void max7219_row(uint8_t address, uint8_t data) {
 // ----------------------------------------------------------------------------
 
 uint8_t __max7219_buffer_int[MAX7219_BUFFER_SIZE]; // = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-
 uint8_t *__max7219_buffer = __max7219_buffer_int;
 uint8_t __max7219_buffer_size = MAX7219_BUFFER_SIZE;
 
-// uint8_t __max7219_buffer_x_mask = MAX7219_BUFFER_SIZE - 1;
-// NOTE: The __max7219_buffer_x_mask could be used as bit mask for buffer overrun protection.
-// If X is larger that the max allowed value the MSB will be trimmed by the bit mask.
-// IMPORTANT: This will work correctly ONLY for __max7219_buffer_size values that are 2^n.
-
-// TODO: replace this with pointer to buffer specified by the calling application.
-// TODO: buffer length should be also specified.
+// ----------------------------------------------------------------------------
 
 // TODO: Add parameter, init scheduler, optional (if not null)
 void max7219b_init(uint8_t *buffer, uint8_t buffer_size) {
-	max7219_init();
+	max7219_init(buffer_size >> 3);
 	__max7219_buffer = buffer;
 	__max7219_buffer_size = buffer_size;
-	// __max7219_buffer_x_mask = __max7219_buffer_size - 1;
 }
 
 void max7219b_out(void) {
 	uint8_t bit_mask = 0x80;
 	for (uint8_t row = 0; row <= 7; row++) {
 		int8_t buffer_seg = __max7219_buffer_size - 8;
-		PORTB &= ~(1 << MAX7219_CS);	// Set CS to LOW
+		PORTB &= ~(1 << MAX7219_CS);	// Set CS to LOW (start of transmission)
 		while (buffer_seg >= 0) {	// Loop until the last segment is processed
 			max7219_byte(row + 1);	// Send the address out.
 			// Then, send the data out ...
@@ -109,7 +120,7 @@ void max7219b_out(void) {
 					PORTB &= ~(1 << MAX7219_DIN);	// Set DIN to LOW
 				PORTB |= (1 << MAX7219_CLK);		// Set CLK to HIGH
 			}
-			buffer_seg -= 8;	// Increase the buffer segment index.
+			buffer_seg -= 8;	// Decrease the buffer segment index.
 		}
 		PORTB |= (1 << MAX7219_CS);		// Set CS to HIGH (end of transmission)
 		PORTB &= ~(1 << MAX7219_CLK);	// Set CLK to LOW

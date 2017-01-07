@@ -101,7 +101,7 @@ int main(void) {
 					}
 					d >>= 1;
 					max7219b_out();	// Output the buffer
-					_delay_ms(10);
+					_delay_ms(5);
 				}
 			}
 			_delay_ms(1000);

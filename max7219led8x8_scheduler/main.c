@@ -49,7 +49,7 @@
 
 // ----------------------------------------------------------------------------
 
-#define MAX7219_SEG_NUM 2	// Segments, number of 8x8 matrices
+#define MAX7219_SEG_NUM 4	// Segments, number of 8x8 matrices
 #define MAX7219_BUFFER_SIZE	MAX7219_SEG_NUM * 8
 
 uint8_t max7219_buffer[MAX7219_BUFFER_SIZE];
@@ -66,12 +66,10 @@ int main(void) {
 
 	// ---- Main Loop ----
 	for (;;) {
-		uint8_t xp = 0, yp = 0;
 		for (uint8_t y = 0; y <= 7; y++) {
-			for (uint8_t x = 0; x <= 15; x++) {
-				if (x == 0 && y == 0) xp = yp = 7;
+			for (uint8_t x = 0; x < MAX7219_BUFFER_SIZE; x++) {
 				max7219b_set(x, y);	// Set pixel
-				_delay_ms(80);
+				_delay_ms(60);
 				max7219b_clr(x, y);	// Clear pixel
 			}
 		}

@@ -49,7 +49,7 @@
 
 // ----------------------------------------------------------------------------
 
-#define MAX7219_SEG_NUM 3	// Segments, number of 8x8 matrices
+#define MAX7219_SEG_NUM (4 + 1)	// Segments, number of 8x8 matrices + 1 extra
 #define MAX7219_BUFFER_SIZE	MAX7219_SEG_NUM * 8
 
 uint8_t max7219_buffer[MAX7219_BUFFER_SIZE];
@@ -73,10 +73,13 @@ int main(void) {
 	// ---- Main Loop ----
 	for (;;) {
 		for (uint8_t c = ' '; c <= 127; c++) {
-			max7219b_char(0, c);
-			max7219b_char(8, c + 1);
+			max7219b_char((MAX7219_SEG_NUM - 1) * 8, c);
 			max7219b_out();	// Output the buffer
-			_delay_ms(500);
+			for (uint8_t s = 0; s < 8; s++) {
+				max7219b_left();
+				max7219b_out();	// Output the buffer
+				_delay_ms(40);
+			}
 		}
 	}
 

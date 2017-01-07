@@ -203,7 +203,7 @@ const uint8_t scrolls[] PROGMEM = {
 
 // ----------------------------------------------------------------------------
 
-#define MAX7219_SEG_NUM 2	// Segments, number of 8x8 matrices
+#define MAX7219_SEG_NUM 4	// Segments, number of 8x8 matrices
 #define MAX7219_BUFFER_SIZE	MAX7219_SEG_NUM * 8
 
 uint8_t max7219_buffer[MAX7219_BUFFER_SIZE];
