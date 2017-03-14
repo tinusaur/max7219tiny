@@ -6,9 +6,9 @@
  *
  * This is part of the Tinusaur/MAX7219LED8x8 project.
  *
- * Copyright (c) 2016 Neven Boyanov, Tinusaur Team. All Rights Reserved.
+ * Copyright (c) 2017 Neven Boyanov, Tinusaur Team. All Rights Reserved.
  * Distributed as open source software under MIT License, see LICENSE.txt file.
- * Please, as a favor, retain the link http://tinusaur.org to The Tinusaur Project.
+ * Retain in your source code the link http://tinusaur.org to the Tinusaur project.
  *
  * Source code available at: https://bitbucket.org/tinusaur/max7219led8x8
  *
@@ -24,10 +24,9 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
-// Change the ports, if necessary.
-// #define MAX7219_DIN		PB0	// DI,	Pin 3 on LED8x8 Board
-// #define MAX7219_CS		PB1	// CS,	Pin 4 on LED8x8 Board
-// #define MAX7219_CLK		PB2	// CLK,	Pin 5 on LED8x8 Board
+// If you need to change the ports for the DIN/CS/CLK you should do so
+// in the "max7219led8x8.h" source code file in the MAX7219LED8x8 library 
+// so it will take affect on all the code.
 
 #include "max7219led8x8/max7219led8x8.h"
 

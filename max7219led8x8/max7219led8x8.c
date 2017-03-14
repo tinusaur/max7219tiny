@@ -6,9 +6,9 @@
  *
  * This is part of the Tinusaur/MAX7219LED8x8 project.
  *
- * Copyright (c) 2016 Neven Boyanov, Tinusaur Team. All Rights Reserved.
+ * Copyright (c) 2017 Neven Boyanov, Tinusaur Team. All Rights Reserved.
  * Distributed as open source software under MIT License, see LICENSE.txt file.
- * Please, as a favor, retain the link http://tinusaur.org to The Tinusaur Project.
+ * Retain in your source code the link http://tinusaur.org to the Tinusaur project.
  *
  * Source code available at: https://bitbucket.org/tinusaur/max7219led8x8
  *
@@ -70,11 +70,6 @@ void max7219_init(uint8_t seg_num) {
 		PORTB |= (1 << MAX7219_CS);		// Set CS to HIGH (end of transmission)				
 		PORTB &= ~(1 << MAX7219_CLK);	// Set CLK to LOW
 	}
-	// max7219_word(0x09, 0x00);	// Decode-Mode Register, 00 = No decode
-	// max7219_word(0x0a, 0x01);	// Intensity Register, 0x00 .. 0x0f
-	// max7219_word(0x0b, 0x07);	// Scan-Limit Register, 0x07 to show all lines
-	// max7219_word(0x0c, 0x01);	// Shutdown Register, 0x01 = Normal Operation
-	// max7219_word(0x0f, 0x00);	// Display-Test Register, 0x00 = Normal Operation
 }
 
 void max7219_row(uint8_t address, uint8_t data) {

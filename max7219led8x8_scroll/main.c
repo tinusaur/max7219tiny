@@ -6,9 +6,9 @@
  *
  * This is part of the Tinusaur/MAX7219LED8x8 project.
  *
- * Copyright (c) 2016 Neven Boyanov, Tinusaur Team. All Rights Reserved.
+ * Copyright (c) 2017 Neven Boyanov, Tinusaur Team. All Rights Reserved.
  * Distributed as open source software under MIT License, see LICENSE.txt file.
- * Please, as a favor, retain the link http://tinusaur.org to The Tinusaur Project.
+ * Retain in your source code the link http://tinusaur.org to the Tinusaur project.
  *
  * Source code available at: https://bitbucket.org/tinusaur/max7219led8x8
  *
@@ -25,12 +25,12 @@
 #include <util/delay.h>
 #include <avr/pgmspace.h>
 
+// #include "tinyavrlib/cpufreq.h"
 #include "tinyavrlib/scheduler.h"
 
-// Change the ports, if necessary.
-// #define MAX7219_DIN		PB0	// DI,	Pin 3 on LED8x8 Board
-// #define MAX7219_CS		PB1	// CS,	Pin 4 on LED8x8 Board
-// #define MAX7219_CLK		PB2	// CLK,	Pin 5 on LED8x8 Board
+// If you need to change the ports for the DIN/CS/CLK you should do so
+// in the "max7219led8x8.h" source code file in the MAX7219LED8x8 library 
+// so it will take affect on all the code.
 
 #include "max7219led8x8/max7219led8x8.h"
 
@@ -211,6 +211,24 @@ uint8_t max7219_buffer[MAX7219_BUFFER_SIZE];
 // ----------------------------------------------------------------------------
 
 int main(void) {
+
+/*
+	// ---- Setup CPU Frequency ----
+#if F_CPU == 1000000UL
+#pragma message "F_CPU=1MHZ"
+// #error "CPU frequency should be 8 MHz"
+	CLKPR_SET(CLKPR_1MHZ);
+//	DEBUGGING_REINIT(OWOWOD_BITLEN_FCPU1MHZ_009600BPS);
+#elif F_CPU == 8000000UL
+#pragma message "F_CPU=8MHZ"
+// #error "CPU frequency should not be 8 MHz"
+	CLKPR_SET(CLKPR_8MHZ);
+//	DEBUGGING_REINIT(OWOWOD_BITLEN_FCPU8MHZ_009600BPS);
+#else
+#pragma message "F_CPU=????"
+#error "CPU frequency should be either 1 MHz or 8 MHz"
+#endif
+*/
 
 	// ---- Initialization ----
 	max7219b_init(max7219_buffer, MAX7219_BUFFER_SIZE);

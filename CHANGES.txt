@@ -3,6 +3,10 @@ CHANGES
 
 2017-03-14 (nb)
 
+Source code maintenance.
+
+2017-03-14 (nb)
+
 IMPORTANT: The ports for the DIN/CS/CLK signals ARE CHANGED to match the wiring of the upcoming new Tinusaur shield.
 
 
