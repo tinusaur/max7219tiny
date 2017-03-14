@@ -6,9 +6,9 @@
  *
  * This is part of the Tinusaur/MAX7219LED8x8 project.
  *
- * Copyright (c) 2016 Neven Boyanov, Tinusaur Team. All Rights Reserved.
+ * Copyright (c) 2017 Neven Boyanov, Tinusaur Team. All Rights Reserved.
  * Distributed as open source software under MIT License, see LICENSE.txt file.
- * Please, as a favor, retain the link http://tinusaur.org to The Tinusaur Project.
+ * Retain in your source code the link http://tinusaur.org to the Tinusaur project.
  *
  * Source code available at: https://bitbucket.org/tinusaur/max7219led8x8
  *
@@ -26,15 +26,9 @@
 
 // ----------------------------------------------------------------------------
 
-#ifndef MAX7219_DIN
-#define MAX7219_DIN		PB0	// DI,	Pin 3 on LED8x8 Board
-#endif
-#ifndef MAX7219_CS
-#define MAX7219_CS		PB1	// CS,	Pin 4 on LED8x8 Board
-#endif
-#ifndef MAX7219_CLK
-#define MAX7219_CLK		PB2	// CLK,	Pin 5 on LED8x8 Board
-#endif
+#define MAX7219_CLK		PB0	// CLK,	pin 5 on the MAX7219 Board
+#define MAX7219_CS		PB1	// CS,	pin 4 on the MAX7219 Board
+#define MAX7219_DIN		PB2	// DIN,	pin 3 on the MAX7219 Board
 
 // ----------------------------------------------------------------------------
 

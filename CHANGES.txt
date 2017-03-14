@@ -1,6 +1,11 @@
 CHANGES
 
 
+2017-03-14 (nb)
+
+IMPORTANT: The ports for the DIN/CS/CLK signals ARE CHANGED to match the wiring of the upcoming new Tinusaur shield.
+
+
 2017-01-08 (nb)
 
 Fixes bug - not working with more than 2 segments. Improved initialization, updated samples.
