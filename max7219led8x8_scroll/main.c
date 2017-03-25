@@ -21,11 +21,11 @@
 //       It should be defined in either (1) Makefile; or (2) in the IDE. 
 
 #include <stdlib.h>
+#include <stdint.h>
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/pgmspace.h>
 
-// #include "tinyavrlib/cpufreq.h"
 #include "tinyavrlib/scheduler.h"
 
 // If you need to change the ports for the DIN/CS/CLK you should do so
@@ -34,19 +34,16 @@
 
 #include "max7219led8x8/max7219led8x8.h"
 
-//
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//                 ATtiny
-//                25/45/85
-//              +----------+   (-)--GND--
-//      (RST)---+ PB5  Vcc +---(+)--VCC--
-// --[OWOWOD]---+ PB3  PB2 +--------CLK--
-//           ---+ PB4  PB1 +---------CS--
-// -------(-)---+ GND  PB0 +--------DIN--
-//              +----------+
-//
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//                 ATtiny85
+//               +----------+   (-)--GND--
+//       (RST)---+ PB5  Vcc +---(+)--VCC--
+// ---[OWOWOD]---+ PB3  PB2 +--------CLK--
+// --------------+ PB4  PB1 +---------CS--
+// --------(-)---+ GND  PB0 +--------DIN--
+//               +----------+
+//              Tinusaur Board
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 // ----------------------------------------------------------------------------
 
@@ -212,28 +209,10 @@ uint8_t max7219_buffer[MAX7219_BUFFER_SIZE];
 
 int main(void) {
 
-/*
-	// ---- Setup CPU Frequency ----
-#if F_CPU == 1000000UL
-#pragma message "F_CPU=1MHZ"
-// #error "CPU frequency should be 8 MHz"
-	CLKPR_SET(CLKPR_1MHZ);
-//	DEBUGGING_REINIT(OWOWOD_BITLEN_FCPU1MHZ_009600BPS);
-#elif F_CPU == 8000000UL
-#pragma message "F_CPU=8MHZ"
-// #error "CPU frequency should not be 8 MHz"
-	CLKPR_SET(CLKPR_8MHZ);
-//	DEBUGGING_REINIT(OWOWOD_BITLEN_FCPU8MHZ_009600BPS);
-#else
-#pragma message "F_CPU=????"
-#error "CPU frequency should be either 1 MHz or 8 MHz"
-#endif
-*/
-
 	// ---- Initialization ----
 	max7219b_init(max7219_buffer, MAX7219_BUFFER_SIZE);
 	scheduler_init(max7219bs_scheduler_userfunc);
-	// scheduler_reinit(SCHEDULER_TCCR0B_1024, SCHEDULER_OCR0A_DEFAULT);	// Adjust, if necessary
+	// scheduler_reinit(SCHEDULER_TCCR0B_1024, SCHEDULER_OCR0A_DEFAULT);	// Adjust, if necessary.
 	scheduler_start();
 
 	// ---- Main Loop ----
@@ -241,14 +220,11 @@ int main(void) {
 		for (uint8_t i = 0; i < sizeof(scrolls); i++) {
 			max7219b_col(MAX7219_BUFFER_SIZE - 1, pgm_read_byte(&scrolls[i]));
 			max7219b_left();
-			/*
-			max7219b_col(0, pgm_read_byte(&scrolls[i]));
-			max7219b_right();
-			*/
 			_delay_ms(50);
 		}
 	}
 
+	// Return the mandatory for the "main" function int value. It is "0" for success.
 	return 0;
 }
 

@@ -21,6 +21,7 @@
 //       It should be defined in either (1) Makefile; or (2) in the IDE. 
 
 #include <stdlib.h>
+#include <stdint.h>
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/pgmspace.h>
@@ -32,19 +33,16 @@
 #include "max7219led8x8/max7219led8x8.h"
 #include "max7219led8x8/max7219led8x8f.h"
 
-//
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//                 ATtiny
-//                25/45/85
-//              +----------+   (-)--GND--
-//      (RST)---+ PB5  Vcc +---(+)--VCC--
-// --[OWOWOD]---+ PB3  PB2 +--------CLK--
-//           ---+ PB4  PB1 +---------CS--
-// -------(-)---+ GND  PB0 +--------DIN--
-//              +----------+
-//
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//                 ATtiny85
+//               +----------+   (-)--GND--
+//       (RST)---+ PB5  Vcc +---(+)--VCC--
+// ---[OWOWOD]---+ PB3  PB2 +--------CLK--
+// --------------+ PB4  PB1 +---------CS--
+// --------(-)---+ GND  PB0 +--------DIN--
+//               +----------+
+//              Tinusaur Board
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 // ----------------------------------------------------------------------------
 
@@ -82,6 +80,7 @@ int main(void) {
 		}
 	}
 
+	// Return the mandatory for the "main" function int value. It is "0" for success.
 	return 0;
 }
 
