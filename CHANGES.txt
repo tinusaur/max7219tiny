@@ -1,6 +1,14 @@
 CHANGES
 
 
+2017-11-13 (nb)
+
+Implemented and used max7219b_scheduler instead of scheduler_init with userfunc.
+
+- Using max7219b_scheduler instead of scheduler_init with userfunc.
+- Implemented max7219b_scheduler function.
+
+
 2017-07-30 (nb)
 
 Updated some texts.

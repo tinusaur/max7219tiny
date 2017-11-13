@@ -21,6 +21,7 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
+#include "tinyavrlib/scheduler.h"
 #include "max7219led8x8.h"
 
 // ----------------------------------------------------------------------------
@@ -91,11 +92,23 @@ uint8_t __max7219_buffer_size = MAX7219_BUFFER_SIZE;
 
 // ----------------------------------------------------------------------------
 
+// Task to be executed by the system scheduler.
+void max7219b_scheduler_task(scheduler_status_p);
+
+// ----------------------------------------------------------------------------
+
 // TODO: Add parameter, init scheduler, optional (if not null)
 void max7219b_init(uint8_t *buffer, uint8_t buffer_size) {
 	max7219_init(buffer_size >> 3);
 	__max7219_buffer = buffer;
 	__max7219_buffer_size = buffer_size;
+}
+
+// Init the system scheduler with the library task.
+// This is necessary to be called if any of the asynchronous mode functions are used.
+void max7219b_scheduler() {
+	scheduler_usertask(max7219b_scheduler_task, 1);
+	// Note: The second argument could be used to specify the speed of refreshing the buffer.
 }
 
 void max7219b_out(void) {
@@ -152,7 +165,14 @@ void max7219b_right(void) {
 
 // ----------------------------------------------------------------------------
 
+// TODO: Remove usage of this function.
 void max7219bs_scheduler_userfunc(uint32_t scheduler_tick) {
+	max7219b_out();
+}
+
+// Task to be executed by the system scheduler.
+// NOTE: Asynchronous mode function.
+void max7219b_scheduler_task(scheduler_status_p scheduler) {
 	max7219b_out();
 }
 

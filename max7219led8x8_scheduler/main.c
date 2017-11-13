@@ -56,10 +56,11 @@ uint8_t max7219_buffer[MAX7219_BUFFER_SIZE];
 int main(void) {
 
 	// ---- Initialization ----
-	max7219b_init(max7219_buffer, MAX7219_BUFFER_SIZE);
-	scheduler_init(max7219bs_scheduler_userfunc);
-	// scheduler_reinit(SCHEDULER_TCCR0B_1024, SCHEDULER_OCR0A_DEFAULT);	// Adjust, if necessary.
+	scheduler_init(SCHEDULER_USERFUNC_NULL);
+	scheduler_reinit(SCHEDULER_TCCR0B_1024, SCHEDULER_OCR0A_MIN);	// Adjust, if necessary
 	scheduler_start();
+	max7219b_init(max7219_buffer, MAX7219_BUFFER_SIZE);
+	max7219b_scheduler();
 
 	// ---- Main Loop ----
 	for (;;) {

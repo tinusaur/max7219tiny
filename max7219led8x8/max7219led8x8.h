@@ -44,6 +44,7 @@ void max7219_row(uint8_t address, uint8_t data);
 //       from the LED MAX7219 controlled.
 
 void max7219b_init(uint8_t *buffer, uint8_t buffer_size);
+void max7219b_scheduler(void);
 void max7219b_out(void);
 void max7219b_set(uint8_t x, uint8_t y);
 void max7219b_clr(uint8_t x, uint8_t y);
@@ -57,7 +58,7 @@ void max7219b_left(void);
 // Buffered output scheduler functions.
 // NOTE: It is much more convenient if the buffer is sent out to the controller
 //       automatically and the application just sets pixels in the buffer.
-
+// TODO: Remove usage of this function.
 void max7219bs_scheduler_userfunc(uint32_t scheduler_tick);
 
 // ============================================================================
