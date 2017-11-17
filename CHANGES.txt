@@ -1,6 +1,11 @@
 CHANGES
 
 
+2017-11-17 (nb)
+
+Fixed max7219led8x8_text/Makefile - added tinyavrlib/scheduler.c library.
+
+
 2017-11-13 (nb)
 
 Implemented and used max7219b_scheduler instead of scheduler_init with userfunc.
