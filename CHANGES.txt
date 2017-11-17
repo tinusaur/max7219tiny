@@ -3,6 +3,12 @@ CHANGES
 
 2017-11-17 (nb)
 
+Updated copyright info and texts.
+
+
+
+2017-11-17 (nb)
+
 Fixed max7219led8x8_text/Makefile - added tinyavrlib/scheduler.c library.
 
 

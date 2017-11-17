@@ -10,6 +10,7 @@ This is a C library for working with the MAX7219 display driver to control 8x8 L
 
 Folders and modules:
  - max7219led8x8            -
+ - max7219led8x8_fx1        -
  - max7219led8x8_life       -
  - max7219led8x8_scheduler  -
  - max7219led8x8_scroll     -
