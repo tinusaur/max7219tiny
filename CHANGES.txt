@@ -3,8 +3,12 @@ CHANGES
 
 2017-11-17 (nb)
 
-Updated copyright info and texts.
+Added new MAX7219LED8x8fx library.
 
+
+2017-11-17 (nb)
+
+Updated copyright info and texts.
 
 
 2017-11-17 (nb)
