@@ -3,6 +3,11 @@ CHANGES
 
 2017-11-19 (nb)
 
+Moved the "Conway's Game of Life" (module max7219led8x8_life) to the "Life Game" project repository.
+
+
+2017-11-19 (nb)
+
 Updated text in files.
 
 
