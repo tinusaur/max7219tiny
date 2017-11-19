@@ -2,6 +2,11 @@ TODO
 
 2015-01 (nb)
 
+- Move the "Conway's Game of Life" (module max7219led8x8_life) to the "Life Game" project repository.
+
+
+2015-01 (nb)
+
 - (done) Implement and start using these functions: max7219s_buffer_set, max7219s_buffer_clr.
 
 
