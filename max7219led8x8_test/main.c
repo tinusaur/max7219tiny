@@ -43,7 +43,7 @@
 
 // ----------------------------------------------------------------------------
 
-#define MAX7219_SEG_NUM 4	// Segments, number of 8x8 matrices
+#define MAX7219_SEG_NUM 1	// Number of segments, i.e. number of 8x8 matrices. Increase this for cascade matrices.
 #define MAX7219_BUFFER_SIZE	MAX7219_SEG_NUM * 8
 
 uint8_t data[][8] = {
@@ -86,20 +86,23 @@ int main(void) {
 
 	// ---- Main Loop ----
 	for (;;) {
-		for (uint8_t i = 0; i <= sizeof(data) / 8 - 1; i++) {
-			for (uint8_t x = 0; x <= 7; x++) {
-				uint8_t d = data[i][x];
-				for (uint8_t y = 0; y <= 7; y++) {
-					for (uint8_t s = 0; s < MAX7219_SEG_NUM - 1; s++) { // Loop through the segments
-						if ((d & 1) == 1) {
+		for (uint8_t i = 0; i <= sizeof(data) / 8 - 1; i++) {	// Loop through the patterns.
+			for (uint8_t x = 0; x <= 7; x++) {	// Loop through each byte of the pattern.
+				uint8_t d = data[i][x];	// Read one byte of data.
+				for (uint8_t y = 0; y <= 7; y++) {	// Loop through each bit of the 
+					for (uint8_t s = 0; s <= MAX7219_SEG_NUM - 1; s++) { // Loop through the matrices.
+						// NOTE: This "for" cycle and the use of the "s" variable is necessary
+						//       only if more than one matrix is present in the hardware.
+						if ((s & 1) == 1) d ^= 1;	// Trick: Flip the data bit for even/odd matrix.
+						if ((d & 1) == 1) { // Check the bit if it is "0" or "1"
 							max7219b_set(x + (s << 3), y);	// Set pixel
 						} else {
 							max7219b_clr(x + (s << 3), y);	// Clear pixel
 						}
-						max7219b_out();	// Output the buffer
-						_delay_ms(20);	// Delay. Remove this for quicker drawing
+						max7219b_out();	// Manually output the buffer.
+						_delay_ms(10);	// Delay. Remove this for quicker drawing.
 					}
-					d >>= 1;
+					d >>= 1;	// Shift bits to the right
 				}
 			}
 			_delay_ms(500);

@@ -1,6 +1,15 @@
 CHANGES
 
 
+2017-12-31 (nb)
+
+Bug fix - loop through the matrices.
+
+- Bug fix - loop through the matrices.
+- Added more comments in the source code.
+- Demo Trick: Flip the data bit for even/odd matrix.
+
+
 2017-11-19 (nb)
 
 Moved the "Conway's Game of Life" (module max7219led8x8_life) to the "Life Game" project repository.
