@@ -1,6 +1,11 @@
 CHANGES
 
 
+2018-01-01 (nb)
+
+Updated copyright info.
+
+
 2017-12-31 (nb)
 
 Bug fix - loop through the matrices.
