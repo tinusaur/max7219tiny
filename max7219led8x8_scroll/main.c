@@ -5,7 +5,7 @@
  *
  * This is part of the Tinusaur/MAX7219LED8x8 project.
  *
- * Copyright (c) 2017 Neven Boyanov, The Tinusaur Team. All Rights Reserved.
+ * Copyright (c) 2018 Neven Boyanov, The Tinusaur Team. All Rights Reserved.
  * Distributed as open source software under MIT License, see LICENSE.txt file.
  * Retain in your source code the link http://tinusaur.org to the Tinusaur project.
  *
@@ -27,22 +27,28 @@
 
 #include "tinyavrlib/scheduler.h"
 
+#include "max7219led8x8/max7219led8x8.h"
 // If you need to change the ports for the DIN/CS/CLK you should do so
 // in the "max7219led8x8.h" source code file in the MAX7219LED8x8 library 
 // so it will take affect on all the code.
-
-#include "max7219led8x8/max7219led8x8.h"
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //                 ATtiny85
 //               +----------+   (-)--GND--
 //       (RST)---+ PB5  Vcc +---(+)--VCC--
-// ---[OWOWOD]---+ PB3  PB2 +--------CLK--
-// --------------+ PB4  PB1 +---------CS--
-// --------(-)---+ GND  PB0 +--------DIN--
+// ---[OWOWOD]---+ PB3  PB2 +---DIN-------
+// --------------+ PB4  PB1 +---CS--------
+// --------(-)---+ GND  PB0 +---CLK-------
 //               +----------+
 //              Tinusaur Board
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// ----------------------------------------------------------------------------
+
+#define MAX7219_SEG_NUM 1	// Number of segments, i.e. number of 8x8 matrices. Increase this for cascade matrices.
+#define MAX7219_BUFFER_SIZE	MAX7219_SEG_NUM * 8
+
+uint8_t max7219_buffer[MAX7219_BUFFER_SIZE];
 
 // ----------------------------------------------------------------------------
 
@@ -196,13 +202,6 @@ const uint8_t scrolls[] PROGMEM = {
 	SCROLL________,
 	SCROLL________,
 };
-
-// ----------------------------------------------------------------------------
-
-#define MAX7219_SEG_NUM 4	// Segments, number of 8x8 matrices
-#define MAX7219_BUFFER_SIZE	MAX7219_SEG_NUM * 8
-
-uint8_t max7219_buffer[MAX7219_BUFFER_SIZE];
 
 // ----------------------------------------------------------------------------
 

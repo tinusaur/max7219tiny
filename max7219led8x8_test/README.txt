@@ -2,7 +2,7 @@ MAX7219LED8x8 - Tinusaur MAX7219 Library for LED 8x8 Matrix
 
 This is a testing project.
 
-This program fills out the display i.e. turns all the LEDs on - with some paterns.
+This program fills out the display i.e. turns all the LEDs on - with some patterns.
 
 To build the project, type:
    $ make

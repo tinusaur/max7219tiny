@@ -3,6 +3,15 @@ CHANGES
 
 2018-01-01 (nb)
 
+Improved testing scripts. Updated and fixed comments. Updated copyright info.
+
+- Improved testing scripts.
+- Updated and fixed comments.
+- Updated copyright info.
+
+
+2018-01-01 (nb)
+
 Updated copyright info.
 
 
