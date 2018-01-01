@@ -3,6 +3,11 @@ CHANGES
 
 2018-01-01 (nb)
 
+Updated TODO file.
+
+
+2018-01-01 (nb)
+
 Improved testing scripts. Updated and fixed comments. Updated copyright info.
 
 - Improved testing scripts.
