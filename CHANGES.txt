@@ -3,6 +3,8 @@ CHANGES
 
 2018-12-25 (nb)
 
+Updated the max7219led8x8_fx1 module with better and new examples using the new MAX7219LED8x8fx library.
+
 Added a new "MAX7219LED8x8fx" library with more complex functions such as text, fonts and bitmaps.
 
 

@@ -15,9 +15,7 @@
 
 // ============================================================================
 
-// #define F_CPU 1000000UL
-// NOTE: The F_CPU (CPU frequency) should not be defined in the source code.
-//       It should be defined in either (1) Makefile; or (2) in the IDE. 
+// NOTE: About F_CPU - it should be set in either (1) Makefile; or (2) in the IDE.
 
 #include <stdlib.h>
 #include <stdint.h>
@@ -28,47 +26,41 @@
 #include "tinyavrlib/scheduler.h"
 
 #include "max7219led8x8/max7219led8x8.h"
-#include "max7219led8x8/max7219led8x8f.h"
-#include "max7219led8x8/max7219led8x8fx.h"
 // If you need to change the ports for the DIN/CS/CLK you should do so
 // in the "max7219led8x8.h" source code file in the MAX7219LED8x8 library 
 // so it will take affect on all the code.
+#include "max7219led8x8/max7219led8x8fx.h"
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //                 ATtiny85
 //               +----------+   (-)--GND--
 //       (RST)---+ PB5  Vcc +---(+)--VCC--
-// ---[OWOWOD]---+ PB3  PB2 +---DIN-------
-// --------------+ PB4  PB1 +---CS--------
-// --------(-)---+ GND  PB0 +---CLK-------
+//  --[OWOWOD]---+ PB3  PB2 +------[DIN]--
+//  -------------+ PB4  PB1 +-------[CS]--
+//  --GND--(-)---+ GND  PB0 +------[CLK]--
 //               +----------+
 //              Tinusaur Board
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 // ----------------------------------------------------------------------------
 
-#define MAX7219_SEG_NUM (1+1)	// Number of segments, i.e. number of 8x8 matrices. Increase this for cascade matrices.
-								// One extra element added to the buffer, for the "hidden" symbol that will scroll.
-#define MAX7219_BUFFER_SIZE	MAX7219_SEG_NUM * 8
+#define MAX7219_SEG_NUM (2+1)	// The number of the segments. Increase this for multiple matrices.
+// NOTE: One extra element added at the end of the buffer for a "hidden" symbol to scroll in.
+#define MAX7219_SEG_LAST (MAX7219_SEG_NUM - 1) * 8	// The index in the buffer of the last segment.
+#define MAX7219_BUFFER_SIZE	MAX7219_SEG_NUM * 8		// The size of the buffer
 
 uint8_t max7219_buffer[MAX7219_BUFFER_SIZE];
 
 // ----------------------------------------------------------------------------
 
-// TODO: Move these functions to the FX library.
-
-void max7219fx_char(uint8_t x, uint8_t c) {
-	for(uint8_t i = 0; i <= 7; i++)
-		max7219b_col(x + i, pgm_read_byte(&max7219led8x8_font[((c - 32) << 3) + i]));
-}
-
-void max7219fx_inv(void) {
-	for(uint8_t i = 0; i < MAX7219_BUFFER_SIZE; i++) {
-		max7219_buffer[i] ^= 0xff;
-	}
-}
+#include "font8x6_data.h"
+#include "tinu16x8_data.h"
 
 // ----------------------------------------------------------------------------
+
+#define MAX7219FX_SCROLL_DELAY 4 // Delay in centisecond
+
+char *text_hello = "Hello, World!";
 
 int main(void) {
 
@@ -81,24 +73,28 @@ int main(void) {
 	max7219b_init(max7219_buffer, MAX7219_BUFFER_SIZE);
 	max7219b_scheduler();
 
+	max7219fx_init(font8x6_data, ' ');
+	
 	// ---- Main Loop ----
 	for (;;) {
-		for (uint8_t c = ' '; c <= 127; c++) {
-			max7219fx_char((MAX7219_SEG_NUM - 1) * 8, c);
-			for (uint8_t s = 0; s < 8; s++) {
-				max7219b_left();
-				_delay_ms(50);
-			}
-			_delay_ms(200);
-			max7219fx_inv();
-			_delay_ms(600);
-			max7219fx_inv();
-			_delay_ms(200);
+		// Print some text
+		char *text = text_hello;
+		while (*text) {
+			max7219fx_char(MAX7219_SEG_LAST, *text++);
+			max7219fx_left(6, MAX7219FX_SCROLL_DELAY);
 		}
+		// Show a bitmap
+		max7219fx_bmp(MAX7219_SEG_LAST, tinu16x8_data, 0, 8);
+		max7219fx_left(8, MAX7219FX_SCROLL_DELAY);
+		max7219fx_bmp(MAX7219_SEG_LAST, tinu16x8_data, 8, 8);
+		max7219fx_left(8, MAX7219FX_SCROLL_DELAY);
+		// Flash the screen
+		_delay_ms(MAX7219FX_SCROLL_DELAY << 6);
+		max7219fx_flash(3, MAX7219FX_SCROLL_DELAY);
+		_delay_ms(MAX7219FX_SCROLL_DELAY << 6);
 	}
 
-	// Return the mandatory for the "main" function int value. It is "0" for success.
-	return 0;
+	return 0; // Return the mandatory result value. It is "0" for success.
 }
 
 // ============================================================================
