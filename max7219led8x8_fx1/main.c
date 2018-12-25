@@ -1,5 +1,5 @@
 /**
- * MAX7219LED8x8fx - Testing script.
+ * MAX7219LED8x8 - Testing script.
  *
  * @author Neven Boyanov
  *
@@ -45,7 +45,7 @@
 // ----------------------------------------------------------------------------
 
 #define MAX7219_SEG_NUM (2+1)	// The number of the segments. Increase this for multiple matrices.
-// NOTE: One extra element added at the end of the buffer for a "hidden" symbol to scroll in.
+// NOTE: Add 1 extra element at the end of the buffer for a "hidden" symbol to scroll in.
 #define MAX7219_SEG_LAST (MAX7219_SEG_NUM - 1) * 8	// The index in the buffer of the last segment.
 #define MAX7219_BUFFER_SIZE	MAX7219_SEG_NUM * 8		// The size of the buffer
 

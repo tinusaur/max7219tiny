@@ -69,13 +69,14 @@ void max7219fx_left(uint8_t n, uint8_t d) { // d = delay in centisecond
 }
 
 void max7219fx_inv(void) {
-	for (uint8_t i = __max7219_buffer_size; i > 0; i--) {
+	// for (int8_t i = __max7219_buffer_size - 1; i >= 0; i--) {
+	for (uint8_t i = 0; i < __max7219_buffer_size; i++) {
 		__max7219_buffer[i] ^= 0xff;
 	}
 }
 
 void max7219fx_flash(uint8_t n, uint8_t d) { // d = delay in centisecond
-	n = n << 2;
+	n = n << 1;
 	while (n--) {
 		max7219fx_inv();
 		max7219fx_delay_cs(d);
