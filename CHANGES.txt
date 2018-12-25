@@ -3,6 +3,8 @@ CHANGES
 
 2018-12-25 (nb)
 
+Added a "README-fx.txt" file for the MAX7219LED8x8fx library.
+
 Removed unused code and data in the main library.
 
 Updated the max7219led8x8_fx1 module with better and new examples using the new MAX7219LED8x8fx library.
