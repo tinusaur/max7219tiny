@@ -80,14 +80,14 @@ void max7219_row(uint8_t address, uint8_t data) {
 
 // ----------------------------------------------------------------------------
 
-#define MAX7219_SEG_NUM		1	// Segments, number of 8x8 matrices
-#define MAX7219_BUFFER_SIZE	MAX7219_SEG_NUM * 8
+// #define MAX7219_SEG_NUM		1	// Segments, number of 8x8 matrices
+// #define MAX7219_BUFFER_SIZE	MAX7219_SEG_NUM * 8
+// uint8_t __max7219_buffer_int[MAX7219_BUFFER_SIZE]; // = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }; // TODO: Is this necessary? Remove?
 
 // ----------------------------------------------------------------------------
 
-uint8_t __max7219_buffer_int[MAX7219_BUFFER_SIZE]; // = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }; // TODO: Is this necessary? Remove?
-uint8_t *__max7219_buffer = __max7219_buffer_int;
-uint8_t __max7219_buffer_size = MAX7219_BUFFER_SIZE;
+uint8_t *__max7219_buffer;	// TODO: Is it needed ... = __max7219_buffer_int;
+uint8_t __max7219_buffer_size;	// TODO: Is it needed ...  = MAX7219_BUFFER_SIZE;
 
 // ----------------------------------------------------------------------------
 
