@@ -3,6 +3,8 @@ CHANGES
 
 2018-12-25 (nb)
 
+Updated testing scripts.
+
 Fixed bug in the max7219fx_inv function. Updated testing script.
 
 Added a "README-fx.txt" file for the MAX7219LED8x8fx library.

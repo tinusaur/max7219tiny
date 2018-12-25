@@ -1,5 +1,5 @@
 /**
- * MAX7219LED8x8 - Tinusaur MAX7219 Library for LED 8x8 Matrix
+ * MAX7219LED8x8 - Testing script.
  *
  * @author Neven Boyanov
  *
@@ -15,9 +15,7 @@
 
 // ============================================================================
 
-// #define F_CPU 1000000UL
-// NOTE: The F_CPU (CPU frequency) should not be defined in the source code.
-//       It should be defined in either (1) Makefile; or (2) in the IDE. 
+// NOTE: About F_CPU - it should be set in either (1) Makefile; or (2) in the IDE.
 
 #include <stdlib.h>
 #include <stdint.h>
@@ -35,17 +33,19 @@
 //                 ATtiny85
 //               +----------+   (-)--GND--
 //       (RST)---+ PB5  Vcc +---(+)--VCC--
-// ---[OWOWOD]---+ PB3  PB2 +---DIN-------
-// --------------+ PB4  PB1 +---CS--------
-// --------(-)---+ GND  PB0 +---CLK-------
+//  --[OWOWOD]---+ PB3  PB2 +------[DIN]--
+//  -------------+ PB4  PB1 +-------[CS]--
+//  --GND--(-)---+ GND  PB0 +------[CLK]--
 //               +----------+
 //              Tinusaur Board
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 // ----------------------------------------------------------------------------
 
-#define MAX7219_SEG_NUM 1	// Number of segments, i.e. number of 8x8 matrices. Increase this for cascade matrices.
-#define MAX7219_BUFFER_SIZE	MAX7219_SEG_NUM * 8
+#define MAX7219_SEG_NUM (1+0)	// The number of the segments. Increase this for multiple matrices.
+// NOTE: Add 1 extra element at the end of the buffer for a "hidden" symbol to scroll in.
+#define MAX7219_SEG_LAST (MAX7219_SEG_NUM - 1) * 8	// The index in the buffer of the last segment.
+#define MAX7219_BUFFER_SIZE	MAX7219_SEG_NUM * 8		// The size of the buffer
 
 uint8_t max7219_buffer[MAX7219_BUFFER_SIZE];
 
@@ -54,9 +54,11 @@ uint8_t max7219_buffer[MAX7219_BUFFER_SIZE];
 int main(void) {
 
 	// ---- Initialization ----
+
 	scheduler_init(SCHEDULER_USERFUNC_NULL);
 	scheduler_reinit(SCHEDULER_TCCR0B_1024, SCHEDULER_OCR0A_MIN);	// Adjust, if necessary
 	scheduler_start();
+
 	max7219b_init(max7219_buffer, MAX7219_BUFFER_SIZE);
 	max7219b_scheduler();
 
@@ -65,14 +67,13 @@ int main(void) {
 		for (uint8_t y = 0; y <= 7; y++) {
 			for (uint8_t x = 0; x < MAX7219_BUFFER_SIZE; x++) {
 				max7219b_set(x, y);	// Set pixel
-				_delay_ms(90);
+				_delay_ms(45);
 				max7219b_clr(x, y);	// Clear pixel
 			}
 		}
 	}
 
-	// Return the mandatory for the "main" function int value. It is "0" for success.
-	return 0;
+	return 0; // Return the mandatory result value. It is "0" for success.
 }
 
 // ============================================================================
