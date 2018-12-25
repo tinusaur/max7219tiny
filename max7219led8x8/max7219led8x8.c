@@ -85,7 +85,7 @@ void max7219_row(uint8_t address, uint8_t data) {
 
 // ----------------------------------------------------------------------------
 
-uint8_t __max7219_buffer_int[MAX7219_BUFFER_SIZE]; // = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+uint8_t __max7219_buffer_int[MAX7219_BUFFER_SIZE]; // = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }; // TODO: Is this necessary? Remove?
 uint8_t *__max7219_buffer = __max7219_buffer_int;
 uint8_t __max7219_buffer_size = MAX7219_BUFFER_SIZE;
 

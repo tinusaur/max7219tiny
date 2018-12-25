@@ -1,6 +1,11 @@
 CHANGES
 
 
+2018-12-25 (nb)
+
+Added a new "MAX7219LED8x8fx" library with more complex functions such as text, fonts and bitmaps.
+
+
 2018-01-01 (nb)
 
 Updated TODO file.
