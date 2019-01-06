@@ -23,6 +23,8 @@
 #include <stdint.h>
 #include <avr/io.h>
 
+#include "tinyavrlib/scheduler.h"
+
 // ----------------------------------------------------------------------------
 
 #define MAX7219_CLK		PB0	// CLK,	pin 5 on the MAX7219 Board
@@ -33,7 +35,7 @@
 
 void max7219_byte(uint8_t data);
 void max7219_word(uint8_t address, uint8_t data);
-void max7219_init(uint8_t seg_num);
+void max7219_init(void);
 void max7219_row(uint8_t address, uint8_t data);
 
 // ----------------------------------------------------------------------------
@@ -54,11 +56,10 @@ void max7219b_left(void);
 
 // ----------------------------------------------------------------------------
 
-// Buffered output scheduler functions.
+// Buffered output scheduler function. Task to be executed by the system scheduler.
+void max7219b_scheduler_usertask(scheduler_status_p scheduler);
 // NOTE: It is much more convenient if the buffer is sent out to the controller
 //       automatically and the application just sets pixels in the buffer.
-// TODO: Remove usage of this function.
-void max7219bs_scheduler_userfunc(uint32_t scheduler_tick);
 
 // ============================================================================
 

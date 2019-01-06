@@ -20,7 +20,6 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
-#include "tinyavrlib/scheduler.h"
 #include "max7219led8x8.h"
 
 // ----------------------------------------------------------------------------
@@ -45,9 +44,7 @@ void max7219_word(uint8_t address, uint8_t data) {
 	PORTB &= ~(1 << MAX7219_CLK);	// Set CLK to LOW
 }
 
-// TODO: Remove seg_num parameter.
-
-void max7219_init(uint8_t seg_num) {
+void max7219_init(void) {
 	uint8_t initseq[] = {
 		0x09, 0x00,	// Decode-Mode Register, 00 = No decode
 		0x0a, 0x01,	// Intensity Register, 0x00 .. 0x0f
@@ -67,6 +64,7 @@ void max7219_init(uint8_t seg_num) {
 		uint8_t opdata = initseq[i++];
 		max7219_word(opcode, opdata);
 	}
+	// TODO: Remove this unused code
 	/*
 	// Replaced by more optimized version.
 	for (uint8_t i = 0; i < sizeof(initseq); ) {
@@ -92,34 +90,15 @@ void max7219_row(uint8_t address, uint8_t data) {
 
 // ----------------------------------------------------------------------------
 
-// #define MAX7219_SEG_NUM		1	// Segments, number of 8x8 matrices
-// #define MAX7219_BUFFER_SIZE	MAX7219_SEG_NUM * 8
-// uint8_t __max7219_buffer_int[MAX7219_BUFFER_SIZE]; // = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }; // TODO: Is this necessary? Remove?
-
-// ----------------------------------------------------------------------------
-
 uint8_t *__max7219_buffer;	// TODO: Is it needed ... = __max7219_buffer_int;
 uint8_t __max7219_buffer_size;	// TODO: Is it needed ...  = MAX7219_BUFFER_SIZE;
 
 // ----------------------------------------------------------------------------
 
-// Task to be executed by the system scheduler.
-void max7219b_scheduler_task(scheduler_status_p);
-
-// ----------------------------------------------------------------------------
-
-// TODO: Add parameter, init scheduler, optional (if not null)
 void max7219b_init(uint8_t *buffer, uint8_t buffer_size) {
-	max7219_init(buffer_size >> 3);
+	max7219_init();
 	__max7219_buffer = buffer;
 	__max7219_buffer_size = buffer_size;
-}
-
-// Init the system scheduler with the library task.
-// This is necessary to be called if any of the asynchronous mode functions are used.
-void max7219b_scheduler() {
-	scheduler_usertask(max7219b_scheduler_task, 1);
-	// Note: The second argument could be used to specify the speed of refreshing the buffer.
 }
 
 void max7219b_out(void) {
@@ -176,14 +155,9 @@ void max7219b_right(void) {
 
 // ----------------------------------------------------------------------------
 
-// TODO: Remove usage of this function.
-void max7219bs_scheduler_userfunc(uint32_t scheduler_tick) {
-	max7219b_out();
-}
-
 // Task to be executed by the system scheduler.
 // NOTE: Asynchronous mode function.
-void max7219b_scheduler_task(scheduler_status_p scheduler) {
+void max7219b_scheduler_usertask(scheduler_status_p scheduler) {
 	max7219b_out();
 }
 

@@ -27,7 +27,7 @@
 
 #include "max7219led8x8/max7219led8x8.h"
 // If you need to change the ports for the DIN/CS/CLK you should do so
-// in the "max7219led8x8.h" source code file in the MAX7219LED8x8 library 
+// in the "max7219led8x8.h" source code file in the MAX7219LED8x8 library
 // so it will take affect on all the code.
 #include "max7219led8x8/max7219led8x8fx.h"
 
@@ -71,7 +71,7 @@ int main(void) {
 	scheduler_start();
 
 	max7219b_init(max7219_buffer, MAX7219_BUFFER_SIZE);
-	max7219b_scheduler();
+	scheduler_usertask(max7219b_scheduler_usertask, 1); // 2nd param: counter
 
 	max7219fx_init(font8x6_data, ' ');
 	

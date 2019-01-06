@@ -214,7 +214,7 @@ int main(void) {
 	scheduler_start();
 
 	max7219b_init(max7219_buffer, MAX7219_BUFFER_SIZE);
-	max7219b_scheduler();
+	scheduler_usertask(max7219b_scheduler_usertask, 1); // 2nd param: counter
 
 	// ---- Main Loop ----
 	for (;;) {
