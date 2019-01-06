@@ -1,6 +1,13 @@
 CHANGES
 
 
+2019-01-06 (nb)
+
+New optimized, improved implementation for max7219_init. Updated text and comments.
+- New optimized and improved implementation for max7219_init function.
+- Updated text and comments in the source code.
+
+
 2018-12-25 (nb)
 
 Updated testing scripts.

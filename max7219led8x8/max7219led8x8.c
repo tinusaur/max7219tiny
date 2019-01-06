@@ -33,32 +33,43 @@ void max7219_byte(uint8_t data) {
 		else
 			PORTB &= ~(1 << MAX7219_DIN);	// Set DIN to LOW
 		PORTB |= (1 << MAX7219_CLK);		// Set CLK to HIGH
-		data <<= 1;
+		data <<= 1;						// Shift to the left
 	}
 }
 
 void max7219_word(uint8_t address, uint8_t data) {
 	PORTB &= ~(1 << MAX7219_CS);	// Set CS to LOW
-	max7219_byte(address);			//
-	max7219_byte(data);				//
+	max7219_byte(address);			// Sending the address
+	max7219_byte(data);				// Sending the data
 	PORTB |= (1 << MAX7219_CS);		// Set CS to HIGH
 	PORTB &= ~(1 << MAX7219_CLK);	// Set CLK to LOW
 }
 
+// TODO: Remove seg_num parameter.
+
 void max7219_init(uint8_t seg_num) {
-	uint8_t initseq[] = { 
+	uint8_t initseq[] = {
 		0x09, 0x00,	// Decode-Mode Register, 00 = No decode
 		0x0a, 0x01,	// Intensity Register, 0x00 .. 0x0f
 		0x0b, 0x07,	// Scan-Limit Register, 0x07 to show all lines
 		0x0c, 0x01,	// Shutdown Register, 0x01 = Normal Operation
-		0x0f, 0x00,	// Display-Test Register, 0x00 = Normal Operation
-		};
+		0x0f, 0x00,	// Display-Test Register, 0x01, 0x00 = Normal Operation
+		0x00, 0x00, // Necessary when cascading (reason: unknown)
+	};
 	DDRB |= (1 << MAX7219_CLK);	// Set CLK port as output
 	DDRB |= (1 << MAX7219_CS);	// Set CS port as output
 	DDRB |= (1 << MAX7219_DIN);	// Set DIN port as output
-	_delay_ms(50);	// TODO: Q: Is this necessary?
+	// PORTB &= ~(1 << MAX7219_CLK);	// Set CLK to LOW, // TODO: Q: Is this necessary?
+	// _delay_ms(50);	// Wait, TODO: Q: Is this necessary?
 	uint8_t i = 0;
 	while (i < sizeof(initseq)) {
+		uint8_t opcode = initseq[i++];
+		uint8_t opdata = initseq[i++];
+		max7219_word(opcode, opdata);
+	}
+	/*
+	// Replaced by more optimized version.
+	for (uint8_t i = 0; i < sizeof(initseq); ) {
 		uint8_t opcode = initseq[i++];
 		uint8_t opdata = initseq[i++];
 		PORTB &= ~(1 << MAX7219_CLK);	// Set CLK to LOW
@@ -67,9 +78,10 @@ void max7219_init(uint8_t seg_num) {
 			max7219_byte(opcode);	// Send the opcode out.
 			max7219_byte(opdata);	// Send the opdata out.
 		}
-		PORTB |= (1 << MAX7219_CS);		// Set CS to HIGH (end of transmission)				
+		PORTB |= (1 << MAX7219_CS);		// Set CS to HIGH (end of transmission)
 		PORTB &= ~(1 << MAX7219_CLK);	// Set CLK to LOW
 	}
+	*/
 }
 
 void max7219_row(uint8_t address, uint8_t data) {
