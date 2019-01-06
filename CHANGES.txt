@@ -3,6 +3,8 @@ CHANGES
 
 2019-01-06 (nb)
 
+Renamed "max7219led8x8_test" module to "max7219led8x8_buff1" as it tests the buffering.
+
 Removed the parameter from max7219_init function. Removed the max7219b_scheduler, moved to manual Scheduler init. Updated testing scripts and Makefile files.
 
 Added new testing script "max7219led8x8_test1" for the non-buffering max7219_row function.
