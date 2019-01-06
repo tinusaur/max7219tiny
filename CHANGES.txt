@@ -3,6 +3,8 @@ CHANGES
 
 2019-01-06 (nb)
 
+Added new testing script "max7219led8x8_test1" for the non-buffering max7219_row function.
+
 New optimized, improved implementation for max7219_init. Updated text and comments.
 - New optimized and improved implementation for max7219_init function.
 - Updated text and comments in the source code.
