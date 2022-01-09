@@ -1,12 +1,13 @@
-Max7219Tiny - Tinusaur MAX7219 Library for LED 8x8 Matrix
+MAX7219tiny - Tinusaur MAX7219 Library for LED 8x8 Matrix
 
------------------------------------------------------------------------------------
- Copyright (c) 2017 Neven Boyanov, The Tinusaur Team. All Rights Reserved.
- Distributed as open source software under MIT License, see LICENSE.txt file.
- Retain in your source code the link http://tinusaur.org to the Tinusaur project.
------------------------------------------------------------------------------------
 
-This is a C library for working with the MAX7219 display driver to control 8x8 LED matrix. It is intended to be used with the Tinusaur board but should also work with any other board based on ATtiny85 or similar microcontroller.
+-------------------------------------------------------------------------------
+ Copyright (c) 2022 Tinusaur (https://tinusaur.com). All rights reserved.
+ Distributed as open source under the MIT License (see the LICENSE.txt file).
+ Please, retain in your work a link to the Tinusaur project website.
+-------------------------------------------------------------------------------
+
+MAX7219tiny is a C library for working with the MAX7219 display driver to control an 8x8 LED matrix. It is intended to be used with the Tinusaur boards but should also work with any other board based on ATtiny85 or a similar microcontroller.
 
 Folders and modules:
  - max7219tiny            -
@@ -17,15 +18,14 @@ Folders and modules:
  - max7219tiny_test       -
  - max7219tiny_text       -
 
-This was developed for and tested on the ATtiny85 microcontroller.
 
-This library is written in plain C and does not require any additional libraries to function except those that come with the C/C++ SDK.
+It is intended to be used with the Tinusaur boards but should also work with any other board based on ATtiny85 or a similar microcontroller.
 
 ==== Links ====
 
-Official Tinusaur Project website: http://tinusaur.org
-Project Max7219Tiny page: http://tinusaur.org/projects/max7219tiny/
-Project Max7219Tiny source code: https://bitbucket.org/tinusaur/max7219tiny
+Official Tinusaur website: http://tinusaur.com
+MAX7219tiny Library Page: https://tinusaur.com/libraries/max7219tiny/
+MAX7219tiny Source Code: https://gitlab.com/tinusaur/max7219tiny
 
 Twitter: https://twitter.com/tinusaur
 Facebook: https://www.facebook.com/tinusaur

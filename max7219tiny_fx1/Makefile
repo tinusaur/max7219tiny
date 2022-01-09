@@ -2,7 +2,7 @@
 # Makefile
 #
 # -----------------------------------------------------------------------------
-# Copyright (c) 2021 Tinusaur (https://tinusaur.com). All rights reserved.
+# Copyright (c) 2022 Tinusaur (https://tinusaur.com). All rights reserved.
 # Distributed as open source under the MIT License (see the LICENSE.txt file).
 # Please, retain in your work a link to the Tinusaur project website.
 # -----------------------------------------------------------------------------
@@ -49,9 +49,6 @@
 #
 # make program = Download the hex file to the device, using avrdude.
 #                Please customize the avrdude settings below first!
-#
-# make debug = Start either simulavr or avarice as specified for debugging, 
-#              with avr-gdb or avr-insight as the front end for debugging.
 #
 # make filename.s = Just compile filename.c into the assembler code only.
 #

@@ -1,21 +1,14 @@
 /**
- * Max7219Tiny - Testing script.
- *
+ * MAX7219tiny - Testing script.
  * @author Neven Boyanov
- *
- * This is part of the Tinusaur/Max7219Tiny project.
- *
- * Copyright (c) 2018 Neven Boyanov, The Tinusaur Team. All Rights Reserved.
- * Distributed as open source software under MIT License, see LICENSE.txt file.
- * Retain in your source code the link http://tinusaur.org to the Tinusaur project.
- *
- * Source code available at: https://bitbucket.org/tinusaur/max7219tiny
- *
+ * This is part of the Tinusaur/MAX7219tiny project.
+ * ----------------------------------------------------------------------------
+ *  Copyright (c) 2022 Tinusaur (https://tinusaur.com). All rights reserved.
+ *  Distributed as open source under the MIT License (see the LICENSE.txt file)
+ *  Please, retain in your work a link to the Tinusaur project website.
+ * ----------------------------------------------------------------------------
+ * Source code available at: https://gitlab.com/tinusaur/max7219tiny
  */
-
-// ============================================================================
-
-// NOTE: About F_CPU - it should be set in either (1) Makefile; or (2) in the IDE.
 
 #include <stdlib.h>
 #include <stdint.h>
@@ -27,7 +20,7 @@
 
 #include "max7219tiny/max7219tiny.h"
 // If you need to change the ports for the DIN/CS/CLK you should do so
-// in the "max7219tiny.h" source code file in the Max7219Tiny library
+// in the "max7219tiny.h" source code file in the MAX7219tiny library
 // so it will take affect on all the code.
 #include "max7219tiny/max7219tinyfx.h"
 
