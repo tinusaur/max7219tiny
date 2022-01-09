@@ -45,7 +45,7 @@ void max7219_row(uint8_t address, uint8_t data);
 //       from the LED MAX7219 controlled.
 
 void max7219b_init(uint8_t *buffer, uint8_t buffer_size);
-void max7219b_scheduler(void);
+// void max7219b_scheduler(void); // No longer in use, REMOVE
 void max7219b_out(void);
 void max7219b_set(uint8_t x, uint8_t y);
 void max7219b_clr(uint8_t x, uint8_t y);

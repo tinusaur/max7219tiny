@@ -82,6 +82,7 @@ void max7219_init(void) {
 	*/
 }
 
+// NOTE: address is from 1 to 8
 void max7219_row(uint8_t address, uint8_t data) {
 	if (address >= 1 && address <= 8) max7219_word(address, data);
 }

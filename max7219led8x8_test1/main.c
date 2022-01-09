@@ -47,11 +47,11 @@ int main(void) {
 
 	// ---- Main Loop ----
 	for (;;) {
-		for (uint8_t row = 0; row < 9; row++) { // 9 times, so both row will be output.
+		for (uint8_t row = 0; row < 9; row++) {	// 9 times, so both rows will be output.
 			uint8_t d = 1;
-			for (uint8_t i = 9; i > 0; i--) { // 9 times, so the last is "0".
-				max7219_row(row, d);
-				max7219_row(row + 1, ~d);
+			for (uint8_t i = 9; i > 0; i--) {	// 9 times, so the last is "0".
+				max7219_row(row, d);			// Display 1 pixel (1 bit)
+				max7219_row(row + 1, ~d);		// Display inverted value - 7 pixels.
 				d = d << 1;
 				_delay_ms(50);
 			}
