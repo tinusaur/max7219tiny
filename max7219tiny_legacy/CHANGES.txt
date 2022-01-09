@@ -1,0 +1,218 @@
+CHANGES
+
+
+2019-01-06 (nb)
+
+Renamed "max7219led8x8_test" module to "max7219led8x8_buff1" as it tests the buffering.
+
+Removed the parameter from max7219_init function. Removed the max7219b_scheduler, moved to manual Scheduler init. Updated testing scripts and Makefile files.
+
+Added new testing script "max7219led8x8_test1" for the non-buffering max7219_row function.
+
+New optimized, improved implementation for max7219_init. Updated text and comments.
+- New optimized and improved implementation for max7219_init function.
+- Updated text and comments in the source code.
+
+
+2018-12-25 (nb)
+
+Updated testing scripts.
+
+Fixed bug in the max7219fx_inv function. Updated testing script.
+
+Added a "README-fx.txt" file for the MAX7219LED8x8fx library.
+
+Removed unused code and data in the main library.
+
+Updated the max7219led8x8_fx1 module with better and new examples using the new MAX7219LED8x8fx library.
+
+Added a new "MAX7219LED8x8fx" library with more complex functions such as text, fonts and bitmaps.
+
+
+2018-01-01 (nb)
+
+Updated TODO file.
+
+
+2018-01-01 (nb)
+
+Improved testing scripts. Updated and fixed comments. Updated copyright info.
+
+- Improved testing scripts.
+- Updated and fixed comments.
+- Updated copyright info.
+
+
+2018-01-01 (nb)
+
+Updated copyright info.
+
+
+2017-12-31 (nb)
+
+Bug fix - loop through the matrices.
+
+- Bug fix - loop through the matrices.
+- Added more comments in the source code.
+- Demo Trick: Flip the data bit for even/odd matrix.
+
+
+2017-11-19 (nb)
+
+Moved the "Conway's Game of Life" (module max7219led8x8_life) to the "Life Game" project repository.
+
+
+2017-11-19 (nb)
+
+Updated text in files.
+
+
+2017-11-17 (nb)
+
+Added new MAX7219LED8x8fx library.
+
+
+2017-11-17 (nb)
+
+Updated copyright info and texts.
+
+
+2017-11-17 (nb)
+
+Fixed max7219led8x8_text/Makefile - added tinyavrlib/scheduler.c library.
+
+
+2017-11-13 (nb)
+
+Implemented and used max7219b_scheduler instead of scheduler_init with userfunc.
+
+- Using max7219b_scheduler instead of scheduler_init with userfunc.
+- Implemented max7219b_scheduler function.
+
+
+2017-07-30 (nb)
+
+Updated some texts.
+
+
+2017-03-25 (nb)
+
+Source code maintenance. Cleanup.
+
+
+2017-03-14 (nb)
+
+Source code maintenance.
+
+2017-03-14 (nb)
+
+IMPORTANT: The ports for the DIN/CS/CLK signals ARE CHANGED to match the wiring of the upcoming new Tinusaur shield.
+
+
+2017-01-08 (nb)
+
+Fixes bug - not working with more than 2 segments. Improved initialization, updated samples.
+
+- Function max7219_init improved: initializes all segment separately, now requires number of segments to initialize. Uses init sequence data array. Fixes bug - not working with more than 2 segments.
+- Samples updated and rebuilt. HEX files updated.
+
+
+2017-01-01 (nb)
+
+IMPORTANT: MAJOR CHANGES - multiple matrices implementation in the library. Check Commit log for more details.
+
+- Rewritten completely the max7219b_out function to handle multiple matrices.
+- New function max7219b_init with advanced initialization features.
+- New function max7219b_left improvements scrolling to the left.
+- Replaced, function max7219b_row by the max7219b_col.
+- Improved, optimized function max7219_byte.
+- Improved max7219b_set, max7219b_clr, now check buffer boundaries. 
+- New data in the "max7219led8x8f.h" font file, all characters included how, up to ASCII code 127.
+- Life game, Scheduler, Scroll, Test, Text: sample code updated to the latest library, some other optimizations and improvements.
+- Updated, improved comments in the source code.
+- Updated sample HEX files.
+- Updated TODO file.
+
+
+2016-12-03 (nb)
+
+IMPORTANT: Changed max7219b_row, parameters swapped. New function max7219b_get.
+
+- IMPORTANT: Changed max7219b_row, parameters swapped.
+- New function max7219b_get.
+- Updated the Life game code.
+- Source code formatting.
+
+
+2015-05-29 (nb)
+
+Updated testing scripts to reflect latest changes.
+
+Removed the unused max7219bs_init_start function. Exposed the max7219bs_scheduler_userfunc function. No Scheduler dependency.
+
+Removed the used max7219led8x8s files.
+
+
+2015-05-15 (nb)
+
+Updated testing scripts to accommodate latest "scheduler" structural changes. Updated Makefile files.
+
+
+2015-05-15 (nb)
+
+Functions max7219_buffer_* renamed to max7219b_*. New max7219bs_init_start function replaces the buffered-scheduled "max7219led8x8s" module.
+
+
+2015-05-15 (nb)
+
+Scheduler moved to TinyAVRLib project. Pending updates to accommodate changes. 
+
+
+2015-05-11 (nb)
+
+Source code reformatting and restructuring for better readability. Updated and improved Makefile and other text files.
+
+- Source code reformatting and restructuring for better readability.
+- Updated and improved Makefile files.
+- Updated README and other text files.
+
+
+2015-04-11 (nb)
+
+Function names changed to lower case. Fixed Makefile files. Improved test scripts.
+
+- Function names changed to lower case, for consistency ans good style.
+- PROGMEM variables made constants, for compatibility with C compiler.
+- Changed max7219led8x8_test/main.c testing script, more interesting.
+- Fixed Makefiles to work under Windows newer SDKs.
+- Fixed typos in texts, other changes.
+
+
+2015-03-03 (nb)
+
+Updated README, added LICENSE.
+
+
+2015-01-01 (nb)
+
+Updated TODO list.
+
+
+2014-07-20 (nb)
+
+Added code for "scheduled" driver, Conway's Game of Life, new functions. Added ".hex" files. Updated texts.
+
+- Added the "scheduled" driver and testing program.
+- Added Conway's Game of Life code.
+- Moved file "max7219led8x8f.h" to the library folder.
+- Added new function MAX7219_buffer_row.
+- Updated text and comments in the source file. Updated "RESEARCH.txt" and "TODO.txt" files. Added "README.txt" for the library.
+- Added all ".hex" files.
+- Changed ".hgignore" file.
+
+
+2014-07-13 (nb)
+
+Files added to the repository.
+
+
