@@ -20,6 +20,8 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
+#include "tinyavrlib/scheduler.h"
+
 #include "max7219tiny.h"
 
 // ----------------------------------------------------------------------------
@@ -155,6 +157,17 @@ void max7219b_right(void) {
 */
 
 // ----------------------------------------------------------------------------
+
+// Buffered output scheduler function.
+// Task to be executed by the system scheduler.
+void max7219b_scheduler_usertask(scheduler_status_p scheduler);
+
+// Init the system scheduler with the library task.
+// This should be if any of the functions with buffering are used.
+void max7219b_scheduler() {
+	scheduler_usertask(max7219b_scheduler_usertask, 1);
+	// Note: The second argument could be used to specify the refresh rate.
+}
 
 // Task to be executed by the system scheduler.
 // NOTE: Asynchronous mode function.

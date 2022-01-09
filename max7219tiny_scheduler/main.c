@@ -22,8 +22,6 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
-#include "tinyavrlib/scheduler.h"
-
 #include "max7219tiny/max7219tiny.h"
 // If you need to change the ports for the DIN/CS/CLK you should do so
 // in the "max7219tiny.h" source code file in the Max7219Tiny library 
@@ -43,7 +41,7 @@
 // ----------------------------------------------------------------------------
 
 #define MAX7219_SEG_NUM (1+0)	// The number of the segments. Increase this for multiple matrices.
-// NOTE: Add 1 extra element at the end of the buffer for a "hidden" symbol to scroll in.
+// NOTE: Add 1 for an extra element at the end of the buffer for a "hidden" symbol to scroll in.
 #define MAX7219_SEG_LAST (MAX7219_SEG_NUM - 1) * 8	// The index in the buffer of the last segment.
 #define MAX7219_BUFFER_SIZE	MAX7219_SEG_NUM * 8		// The size of the buffer
 
@@ -52,22 +50,19 @@ uint8_t max7219_buffer[MAX7219_BUFFER_SIZE];
 // ----------------------------------------------------------------------------
 
 int main(void) {
-
 	// ---- Initialization ----
-
 	scheduler_init(SCHEDULER_USERFUNC_NULL);
 	scheduler_reinit(SCHEDULER_TCCR0B_1024, SCHEDULER_OCR0A_MIN);	// Adjust, if necessary
 	scheduler_start();
-
 	max7219b_init(max7219_buffer, MAX7219_BUFFER_SIZE);
-	scheduler_usertask(max7219b_scheduler_usertask, 1); // 2nd param: counter
+	max7219b_scheduler();
 
 	// ---- Main Loop ----
 	for (;;) {
 		for (uint8_t y = 0; y <= 7; y++) {
 			for (uint8_t x = 0; x < MAX7219_BUFFER_SIZE; x++) {
 				max7219b_set(x, y);	// Set pixel
-				_delay_ms(45);
+				_delay_ms(50);
 				max7219b_clr(x, y);	// Clear pixel
 			}
 		}

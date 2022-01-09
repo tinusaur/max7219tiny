@@ -45,7 +45,7 @@
 // ----------------------------------------------------------------------------
 
 #define MAX7219_SEG_NUM (2+1)	// The number of the segments. Increase this for multiple matrices.
-// NOTE: Add 1 extra element at the end of the buffer for a "hidden" symbol to scroll in.
+// NOTE: Add 1 for an extra element at the end of the buffer for a "hidden" symbol to scroll in.
 #define MAX7219_SEG_LAST (MAX7219_SEG_NUM - 1) * 8	// The index in the buffer of the last segment.
 #define MAX7219_BUFFER_SIZE	MAX7219_SEG_NUM * 8		// The size of the buffer
 
@@ -63,16 +63,12 @@ uint8_t max7219_buffer[MAX7219_BUFFER_SIZE];
 char *text_hello = "Hello, World!";
 
 int main(void) {
-
 	// ---- Initialization ----
-
 	scheduler_init(SCHEDULER_USERFUNC_NULL);
 	scheduler_reinit(SCHEDULER_TCCR0B_1024, SCHEDULER_OCR0A_MIN);	// Adjust, if necessary
 	scheduler_start();
-
 	max7219b_init(max7219_buffer, MAX7219_BUFFER_SIZE);
-	scheduler_usertask(max7219b_scheduler_usertask, 1); // 2nd param: counter
-
+	max7219b_scheduler();
 	max7219fx_init(font8x6_data, ' ');
 	
 	// ---- Main Loop ----
@@ -90,7 +86,7 @@ int main(void) {
 		max7219fx_left(8, MAX7219FX_SCROLL_DELAY);
 		// Flash the screen
 		_delay_ms(MAX7219FX_SCROLL_DELAY << 6);
-		max7219fx_flash(3, MAX7219FX_SCROLL_DELAY);
+		max7219fx_flash(3, MAX7219FX_SCROLL_DELAY << 1);
 		_delay_ms(MAX7219FX_SCROLL_DELAY << 6);
 	}
 

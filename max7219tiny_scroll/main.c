@@ -43,8 +43,8 @@
 
 // ----------------------------------------------------------------------------
 
-#define MAX7219_SEG_NUM (1+0)	// The number of the segments. Increase this for multiple matrices.
-// NOTE: Add 1 extra element at the end of the buffer for a "hidden" symbol to scroll in.
+#define MAX7219_SEG_NUM (2+0)	// The number of the segments. Increase this for multiple matrices.
+// NOTE: Add 1 for an extra element at the end of the buffer for a "hidden" symbol to scroll in.
 #define MAX7219_SEG_LAST (MAX7219_SEG_NUM - 1) * 8	// The index in the buffer of the last segment.
 #define MAX7219_BUFFER_SIZE	MAX7219_SEG_NUM * 8		// The size of the buffer
 
@@ -70,14 +70,15 @@ uint8_t max7219_buffer[MAX7219_BUFFER_SIZE];
 #define SCROLLXX_____X 0b11000001
 #define SCROLLXX____XX 0b11000011
 #define SCROLLXX___XXX 0b11000111
-#define SCROLLXXX__XXX 0b11100111
 
 #define SCROLLXXX_____ 0b11100000
 #define SCROLLXXX____X 0b11100001
 #define SCROLLXXX___XX 0b11100011
+#define SCROLLXXX__XXX 0b11100111
 
 #define SCROLLXXXX____ 0b11110000
 #define SCROLLXXXX___X 0b11110001
+#define SCROLLXXXX__XX 0b11110011
 
 #define SCROLLXXXXX___ 0b11111000
 
@@ -206,15 +207,12 @@ const uint8_t scrolls[] PROGMEM = {
 // ----------------------------------------------------------------------------
 
 int main(void) {
-
 	// ---- Initialization ----
-
 	scheduler_init(SCHEDULER_USERFUNC_NULL);
 	scheduler_reinit(SCHEDULER_TCCR0B_1024, SCHEDULER_OCR0A_MIN);	// Adjust, if necessary
 	scheduler_start();
-
 	max7219b_init(max7219_buffer, MAX7219_BUFFER_SIZE);
-	scheduler_usertask(max7219b_scheduler_usertask, 1); // 2nd param: counter
+	max7219b_scheduler();
 
 	// ---- Main Loop ----
 	for (;;) {
