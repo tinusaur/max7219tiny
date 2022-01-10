@@ -16,6 +16,7 @@
 #include <string.h>
 #include <avr/io.h>
 #include <util/delay.h>
+#include <avr/pgmspace.h>
 
 #include "tinyavrlib/scheduler.h"
 
@@ -43,42 +44,26 @@ void max7219_word(uint8_t address, uint8_t data) {
 	PORTB &= ~(1 << MAX7219_CLK);	// Set CLK to LOW
 }
 
+const uint8_t max7219_initseq[] PROGMEM = {
+	0x09, 0x00,	// Decode-Mode Register, 00 = No decode
+	0x0a, 0x01,	// Intensity Register, 0x00 .. 0x0f
+	0x0b, 0x07,	// Scan-Limit Register, 0x07 to show all lines
+	0x0c, 0x01,	// Shutdown Register, 0x01 = Normal Operation
+	0x0f, 0x00,	// Display-Test Register, 0x01, 0x00 = Normal Operation
+	0x00, 0x00, // Necessary when cascading (reason: unknown)
+};
+
 void max7219_init(void) {
-	uint8_t initseq[] = {
-		0x09, 0x00,	// Decode-Mode Register, 00 = No decode
-		0x0a, 0x01,	// Intensity Register, 0x00 .. 0x0f
-		0x0b, 0x07,	// Scan-Limit Register, 0x07 to show all lines
-		0x0c, 0x01,	// Shutdown Register, 0x01 = Normal Operation
-		0x0f, 0x00,	// Display-Test Register, 0x01, 0x00 = Normal Operation
-		0x00, 0x00, // Necessary when cascading (reason: unknown)
-	};
 	DDRB |= (1 << MAX7219_CLK);	// Set CLK port as output
 	DDRB |= (1 << MAX7219_CS);	// Set CS port as output
 	DDRB |= (1 << MAX7219_DIN);	// Set DIN port as output
 	// PORTB &= ~(1 << MAX7219_CLK);	// Set CLK to LOW, // TODO: Q: Is this necessary?
 	// _delay_ms(50);	// Wait, TODO: Q: Is this necessary?
-	uint8_t i = 0;
-	while (i < sizeof(initseq)) {
-		uint8_t opcode = initseq[i++];
-		uint8_t opdata = initseq[i++];
+	for (uint8_t i = 0; i < sizeof (max7219_initseq);) {
+		uint8_t opcode = pgm_read_byte(&max7219_initseq[i++]);
+		uint8_t opdata = pgm_read_byte(&max7219_initseq[i++]);
 		max7219_word(opcode, opdata);
 	}
-	// TODO: Remove this unused code
-	/*
-	// Replaced by more optimized version.
-	for (uint8_t i = 0; i < sizeof(initseq); ) {
-		uint8_t opcode = initseq[i++];
-		uint8_t opdata = initseq[i++];
-		PORTB &= ~(1 << MAX7219_CLK);	// Set CLK to LOW
-		PORTB &= ~(1 << MAX7219_CS);	// Set CS to LOW (start of transmission)
-		for (uint8_t seg = 0; seg < seg_num; seg++) {
-			max7219_byte(opcode);	// Send the opcode out.
-			max7219_byte(opdata);	// Send the opdata out.
-		}
-		PORTB |= (1 << MAX7219_CS);		// Set CS to HIGH (end of transmission)
-		PORTB &= ~(1 << MAX7219_CLK);	// Set CLK to LOW
-	}
-	*/
 }
 
 // NOTE: address is from 1 to 8

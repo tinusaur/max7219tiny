@@ -23,24 +23,24 @@
 #include "tinyavrlib/scheduler.h"
 
 // ----------------------------------------------------------------------------
-//               ATtiny85              |         |
-//             +----------+       Vcc--|         |   GAMEx3 Gen-4
-// -----(RST)-->      Vcc +--(+)  GND--| LED 8x8 |  --------------
-// ------------+ PB3  PB2 +-->----DIN--|  Matrix |   PB2-->--CLK
-// ------------+ PB4  PB1 +-->----CS---| MAX7219 |   PB1-->--DIN
-//        (-)--+ GND  PB0 +-->----CLK--|         |   PB0-->--CS
-//             +----------+            |         |
+//               ATtiny85                          __________
+//             +----------+              ··--Vcc--|          |
+// -----(RST)-->      Vcc +--(+)         ··--GND--| LEDs 8x8 |
+// ------------+ PB3  PB2 +-->--CLK--··  ··--DIN--|  Matrix  |
+// ------------+ PB4  PB1 +-->--DIN--··  ··---CS--| MAX-7219 |
+//        (-)--+ GND  PB0 +-->--CS---··  ··--CLK--|__________|
+//             +----------+                       
 // ----------------------------------------------------------------------------
 
-// PINOUT DEFINITIONS FOR Tinusaur Shield GAMEx3 Gen-1
-#define MAX7219_CLK		PB0	// CLK,	pin 5 on the MAX7219 Board
-#define MAX7219_CS		PB1	// CS,	pin 4 on the MAX7219 Board
-#define MAX7219_DIN		PB2	// DIN,	pin 3 on the MAX7219 Board
+// PINOUT DEFINITIONS for Tinusaur Shield GAMEx3 Gen-4
+#define MAX7219_CLK		PB2	// CLK,	pin 5 on the MAX7219 Board
+#define MAX7219_CS		PB0	// CS,	pin 4 on the MAX7219 Board
+#define MAX7219_DIN		PB1	// DIN,	pin 3 on the MAX7219 Board
 
-// PINOUT DEFINITIONS FOR Tinusaur Shield GAMEx3 Gen-4
-// #define MAX7219_CLK		PB2	// CLK,	pin 5 on the MAX7219 Board
-// #define MAX7219_CS		PB0	// CS,	pin 4 on the MAX7219 Board
-// #define MAX7219_DIN		PB1	// DIN,	pin 3 on the MAX7219 Board
+// PINOUT DEFINITIONS for Tinusaur Shield GAMEx3 Gen-1
+// #define MAX7219_CLK		PB0	// CLK,	pin 5 on the MAX7219 Board
+// #define MAX7219_CS		PB1	// CS,	pin 4 on the MAX7219 Board
+// #define MAX7219_DIN		PB2	// DIN,	pin 3 on the MAX7219 Board
 
 // ----------------------------------------------------------------------------
 
