@@ -15,7 +15,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <avr/io.h>
-#include <util/delay.h>
+// #include <util/delay.h>
 #include <avr/pgmspace.h>
 
 #include "tinyavrlib/scheduler.h"
@@ -24,24 +24,35 @@
 
 // ----------------------------------------------------------------------------
 
+#define MAX7219_CS_HI()		PORTB |= (1 << MAX7219_CS)
+#define MAX7219_CS_LO() 	PORTB &= ~(1 << MAX7219_CS)
+
+#define MAX7219_CLK_HI()	PORTB |= (1 << MAX7219_CLK)
+#define MAX7219_CLK_LO()	PORTB &= ~(1 << MAX7219_CLK)
+
+#define MAX7219_DIN_HI()	PORTB |= (1 << MAX7219_DIN)
+#define MAX7219_DIN_LO()	PORTB &= ~(1 << MAX7219_DIN)
+
+// ----------------------------------------------------------------------------
+
 void max7219_byte(uint8_t data) {
 	for(uint8_t i = 8; i >= 1; i--) {
-		PORTB &= ~(1 << MAX7219_CLK);	// Set CLK to LOW
-		if (data & 0x80)				// Mask the MSB of the data
-			PORTB |= (1 << MAX7219_DIN);	// Set DIN to HIGH
+		MAX7219_CLK_LO();		// Set CLK to LOW
+		if (data & 0x80)		// Mask the MSB of the data
+			MAX7219_DIN_HI();	// Set DIN to HIGH
 		else
-			PORTB &= ~(1 << MAX7219_DIN);	// Set DIN to LOW
-		PORTB |= (1 << MAX7219_CLK);		// Set CLK to HIGH
-		data <<= 1;						// Shift to the left
+			MAX7219_DIN_LO();	// Set DIN to LOW
+		MAX7219_CLK_HI();		// Set CLK to HIGH
+		data <<= 1;				// Shift to the left
 	}
 }
 
 void max7219_word(uint8_t address, uint8_t data) {
-	PORTB &= ~(1 << MAX7219_CS);	// Set CS to LOW
-	max7219_byte(address);			// Sending the address
-	max7219_byte(data);				// Sending the data
-	PORTB |= (1 << MAX7219_CS);		// Set CS to HIGH
-	PORTB &= ~(1 << MAX7219_CLK);	// Set CLK to LOW
+	MAX7219_CS_LO();		// Set CS to LOW
+	max7219_byte(address);	// Sending the address
+	max7219_byte(data);		// Sending the data
+	MAX7219_CS_HI();		// Set CS to HIGH
+	MAX7219_CLK_LO();		// Set CLK to LOW
 }
 
 const uint8_t max7219_initseq[] PROGMEM = {
@@ -57,8 +68,8 @@ void max7219_init(void) {
 	DDRB |= (1 << MAX7219_CLK);	// Set CLK port as output
 	DDRB |= (1 << MAX7219_CS);	// Set CS port as output
 	DDRB |= (1 << MAX7219_DIN);	// Set DIN port as output
-	// PORTB &= ~(1 << MAX7219_CLK);	// Set CLK to LOW, // TODO: Q: Is this necessary?
-	// _delay_ms(50);	// Wait, TODO: Q: Is this necessary?
+	// MAX7219_CLK_LO();	// Set CLK to LOW, Q: Is this necessary?
+	// _delay_ms(50);		// Wait, TODO: Q: Is this necessary?
 	for (uint8_t i = 0; i < sizeof (max7219_initseq);) {
 		uint8_t opcode = pgm_read_byte(&max7219_initseq[i++]);
 		uint8_t opdata = pgm_read_byte(&max7219_initseq[i++]);
@@ -90,23 +101,23 @@ void max7219b_out(void) {
 	uint8_t bit_mask = 0x80;
 	for (uint8_t row = 0; row <= 7; row++) {
 		int8_t buffer_seg = __max7219_buffer_size - 8;
-		PORTB &= ~(1 << MAX7219_CS);	// Set CS to LOW (start of transmission)
+		MAX7219_CS_LO();	// Set CS to LOW (start of transmission)
 		while (buffer_seg >= 0) {	// Loop until the last segment is processed
 			max7219_byte(row + 1);	// Send the address out.
 			// Then, send the data out ...
 			for(int8_t index = 7; index >= 0; index--) {	// NOTE: Must be signed int.
 				// Send 1 bit out.
-				PORTB &= ~(1 << MAX7219_CLK);	// Set CLK to LOW
+				MAX7219_CLK_LO();	// Set CLK to LOW
 				if (__max7219_buffer[buffer_seg + index] & bit_mask) // Mask the bit of the data
-					PORTB |= (1 << MAX7219_DIN);	// Set DIN to HIGH
+					MAX7219_DIN_HI();	// Set DIN to HIGH
 				else
-					PORTB &= ~(1 << MAX7219_DIN);	// Set DIN to LOW
-				PORTB |= (1 << MAX7219_CLK);		// Set CLK to HIGH
+					MAX7219_DIN_LO();	// Set DIN to LOW
+				MAX7219_CLK_HI();		// Set CLK to HIGH
 			}
 			buffer_seg -= 8;	// Decrease the buffer segment index.
 		}
-		PORTB |= (1 << MAX7219_CS);		// Set CS to HIGH (end of transmission)
-		PORTB &= ~(1 << MAX7219_CLK);	// Set CLK to LOW
+		MAX7219_CS_HI();		// Set CS to HIGH (end of transmission)
+		MAX7219_CLK_LO();	// Set CLK to LOW
 		bit_mask >>= 1;	// Shift bit mask to the left.
 	}
 }
