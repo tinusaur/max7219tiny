@@ -8,7 +8,7 @@ MAX7219tiny is a C library for working with the MAX7219 display driver to contro
     Distributed as open source under the MIT License (see the LICENSE.txt file).
     Please, retain in your work a link to the Tinusaur project website.
 
-- MAX7219tiny source code:   https://gitlab.com/tinusaur/max7219tiny  
+- MAX7219tiny source code:   https://gitlab.com/tinusaur/max7219tiny
   GitHub mirror at: https://github.com/tinusaur/max7219tiny
 - MAX7219tiny project page:  http://tinusaur.com/libraries/max7219tiny
 
@@ -27,7 +27,7 @@ TO-DO
 
 ## How does it works?
 
-![Tinusaur MAX7219tiny Library Diagram](/media/Tinusaur-MAX7219tiny-Diagram.png "Tinusaur MAX7219tiny Library Diagram")*Tinusaur MAX7219tiny Library Diagram*
+![Tinusaur MAX7219tiny Library Diagram](/media/Tinusaur-MAX7219tiny-Diagram.jpg "Tinusaur MAX7219tiny Library Diagram")*Tinusaur MAX7219tiny Library Diagram*
 
 ## Compatibility
 

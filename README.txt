@@ -20,6 +20,7 @@ This library is intended to be used with the Tinusaur boards but should also wor
 Official Tinusaur website: http://tinusaur.com
 MAX7219tiny Library Page: https://tinusaur.com/libraries/max7219tiny/
 MAX7219tiny Source Code: https://gitlab.com/tinusaur/max7219tiny
+GitHub mirror at: https://github.com/tinusaur/max7219tiny
 
 Twitter: https://twitter.com/tinusaur
 Facebook: https://www.facebook.com/tinusaur
