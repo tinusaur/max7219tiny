@@ -99,16 +99,16 @@ void max7219b_init(uint8_t *buffer, uint8_t buffer_size) {
 
 void max7219b_out(void) {
 	uint8_t bit_mask = 0x80;
-	for (uint8_t row = 0; row <= 7; row++) {
-		int8_t buffer_seg = __max7219_buffer_size - 8;
+	for (uint8_t row = 1; row <= 8; row++) {	// Loop through the buffer rows
+		int8_t buffer_seg = __max7219_buffer_size - 8;	// Starting from the last segment of the buffer.
 		MAX7219_CS_LO();	// Set CS to LOW (start of transmission)
-		while (buffer_seg >= 0) {	// Loop until the last segment is processed
-			max7219_byte(row + 1);	// Send the address out.
+		while (buffer_seg >= 0) {	// Loop through the segments
+			max7219_byte(row);		// Send the address out.
 			// Then, send the data out ...
-			for(int8_t index = 7; index >= 0; index--) {	// NOTE: Must be signed int.
+			for(uint8_t index = 8; index != 0; index--) {	// Loop through the bits of the data
 				// Send 1 bit out.
 				MAX7219_CLK_LO();	// Set CLK to LOW
-				if (__max7219_buffer[buffer_seg + index] & bit_mask) // Mask the bit of the data
+				if (__max7219_buffer[buffer_seg + index - 1] & bit_mask) // Mask the bit of the data
 					MAX7219_DIN_HI();	// Set DIN to HIGH
 				else
 					MAX7219_DIN_LO();	// Set DIN to LOW
