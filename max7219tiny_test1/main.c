@@ -38,14 +38,14 @@ int main(void) {
 	for (;;) {
 		for (uint8_t r = 1; r <= 8; r++) { // 8 times, row values are 1 to 8.
 			uint8_t d = 1;
-			for (uint8_t i = 9; i > 0; i--) { // 9 times, so the last value is "0".
+			for (uint8_t i = 9; i != 0; i--) { // 9 times, so the last value is "0".
 				max7219_row(r, d);
-				d = d << 1;
+				d <<= 1;
 				_delay_ms(100);
 			}
 		}
 	}
-	return 0; // Return the mandatory result value. It is "0" for success.
+	return 0; // Return the mandatory result value.
 }
 
 // ============================================================================
