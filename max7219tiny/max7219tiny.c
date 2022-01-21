@@ -15,7 +15,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <avr/io.h>
-// #include <util/delay.h>
 #include <avr/pgmspace.h>
 
 #include "tinyavrlib/scheduler.h"
@@ -35,8 +34,12 @@
 
 // ----------------------------------------------------------------------------
 
+uint8_t __max7219_num;
+
+// ----------------------------------------------------------------------------
+
 void max7219_byte(uint8_t data) {
-	for(uint8_t i = 8; i >= 1; i--) {
+	for(uint8_t i = 8; i != 0; i--) {
 		MAX7219_CLK_LO();		// Set CLK to LOW
 		if (data & 0x80)		// Mask the MSB of the data
 			MAX7219_DIN_HI();	// Set DIN to HIGH
@@ -47,12 +50,14 @@ void max7219_byte(uint8_t data) {
 	}
 }
 
-void max7219_word(uint8_t address, uint8_t data) {
-	MAX7219_CS_LO();		// Set CS to LOW
-	max7219_byte(address);	// Sending the address
-	max7219_byte(data);		// Sending the data
-	MAX7219_CS_HI();		// Set CS to HIGH
-	MAX7219_CLK_LO();		// Set CLK to LOW
+void max7219_word(uint8_t addr, uint8_t data, uint8_t num) {
+	MAX7219_CS_LO();		// Set CS to LOW ____ start of transmission
+	for (uint8_t n = num; n != 0; n--) { // Send multiple times for cascaded matrices
+		max7219_byte(addr);	// Sending the address
+		max7219_byte(data);	// Sending the data
+	}
+	MAX7219_CS_HI();		// Set CS to HIGH \__ end of transmission
+	MAX7219_CLK_LO();		// Set CLK to LOW /
 }
 
 const uint8_t max7219_initseq[] PROGMEM = {
@@ -61,38 +66,37 @@ const uint8_t max7219_initseq[] PROGMEM = {
 	0x0b, 0x07,	// Scan-Limit Register, 0x07 to show all lines
 	0x0c, 0x01,	// Shutdown Register, 0x01 = Normal Operation
 	0x0f, 0x00,	// Display-Test Register, 0x01, 0x00 = Normal Operation
-	0x00, 0x00, // Necessary when cascading (reason: unknown)
+	// 0x00, 0x00, // Necessary when cascading (reason: unknown)	// is this needed?
 };
 
-void max7219_init(void) {
+void max7219_init(uint8_t num) {
 	DDRB |= (1 << MAX7219_CLK);	// Set CLK port as output
 	DDRB |= (1 << MAX7219_CS);	// Set CS port as output
 	DDRB |= (1 << MAX7219_DIN);	// Set DIN port as output
-	// MAX7219_CLK_LO();	// Set CLK to LOW, Q: Is this necessary?
-	// _delay_ms(50);		// Wait, TODO: Q: Is this necessary?
+	__max7219_num = num;
 	for (uint8_t i = 0; i < sizeof (max7219_initseq);) {
-		uint8_t opcode = pgm_read_byte(&max7219_initseq[i++]);
-		uint8_t opdata = pgm_read_byte(&max7219_initseq[i++]);
-		max7219_word(opcode, opdata);
+		uint8_t addr = pgm_read_byte(&max7219_initseq[i++]);
+		uint8_t data = pgm_read_byte(&max7219_initseq[i++]);
+		max7219_word(addr, data, __max7219_num);
 	}
 }
 
 // NOTE: address is from 1 to 8
-void max7219_row(uint8_t address, uint8_t data) {
-	if (address >= 1 && address <= 8) max7219_word(address, data);
+void max7219_row(uint8_t addr, uint8_t data) {
+	if (addr >= 1 && addr <= 8) max7219_word(addr, data, __max7219_num);
 }
+
+// ----------------------------------------------------------------------------
+
+uint8_t *__max7219_buffer;
+uint8_t __max7219_buffer_size;
+
+// ----------------------------------------------------------------------------
 
 // TODO: Write function to clear the buffer.
 
-// ----------------------------------------------------------------------------
-
-uint8_t *__max7219_buffer;	// TODO: Is it needed ... = __max7219_buffer_int;
-uint8_t __max7219_buffer_size;	// TODO: Is it needed ...  = MAX7219_BUFFER_SIZE;
-
-// ----------------------------------------------------------------------------
-
-void max7219b_init(uint8_t *buffer, uint8_t buffer_size) {
-	max7219_init();
+void max7219b_init(uint8_t num, uint8_t *buffer, uint8_t buffer_size) {
+	max7219_init(num);
 	__max7219_buffer = buffer;
 	__max7219_buffer_size = buffer_size;
 }
@@ -100,25 +104,26 @@ void max7219b_init(uint8_t *buffer, uint8_t buffer_size) {
 void max7219b_out(void) {
 	uint8_t bit_mask = 0x80;
 	for (uint8_t row = 1; row <= 8; row++) {	// Loop through the buffer rows
-		int8_t buffer_seg = __max7219_buffer_size - 8;	// Starting from the last segment of the buffer.
-		MAX7219_CS_LO();	// Set CS to LOW (start of transmission)
-		while (buffer_seg >= 0) {	// Loop through the segments
+		uint8_t buffer_seg = __max7219_buffer_size;	// Starting from the last segment of the buffer - the "-8" below.
+		MAX7219_CS_LO();	// Set CS to LOW \___ start of transmission
+		while (buffer_seg != 0) {	// Loop through the segments
 			max7219_byte(row);		// Send the address out.
-			// Then, send the data out ...
-			for(uint8_t index = 8; index != 0; index--) {	// Loop through the bits of the data
+			// Send 8 bits - 1 from each column
+			for (uint8_t index = 8; index != 0; index--) {	// Loop through the columns
+				uint8_t col = __max7219_buffer[buffer_seg + index - 1 - 8];
 				// Send 1 bit out.
 				MAX7219_CLK_LO();	// Set CLK to LOW
-				if (__max7219_buffer[buffer_seg + index - 1] & bit_mask) // Mask the bit of the data
+				if (col & bit_mask) // Mask the bit of the data
 					MAX7219_DIN_HI();	// Set DIN to HIGH
 				else
 					MAX7219_DIN_LO();	// Set DIN to LOW
 				MAX7219_CLK_HI();		// Set CLK to HIGH
 			}
-			buffer_seg -= 8;	// Decrease the buffer segment index.
+			buffer_seg -= 8;		// Decrease the buffer segment index.
 		}
-		MAX7219_CS_HI();		// Set CS to HIGH (end of transmission)
-		MAX7219_CLK_LO();	// Set CLK to LOW
-		bit_mask >>= 1;	// Shift bit mask to the left.
+		MAX7219_CS_HI();	// Set CS to HIGH \__ end of transmission
+		MAX7219_CLK_LO();	// Set CLK to LOW /
+		bit_mask >>= 1;		// Shift bit mask to the left.
 	}
 }
 

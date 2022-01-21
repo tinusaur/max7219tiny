@@ -45,9 +45,9 @@
 // ----------------------------------------------------------------------------
 
 void max7219_byte(uint8_t data);
-void max7219_word(uint8_t address, uint8_t data);
-void max7219_init(void);
-void max7219_row(uint8_t address, uint8_t data);
+void max7219_word(uint8_t address, uint8_t data, uint8_t num);
+void max7219_init(uint8_t num);
+void max7219_row(uint8_t addr, uint8_t data);
 
 // ----------------------------------------------------------------------------
 
@@ -55,7 +55,7 @@ void max7219_row(uint8_t address, uint8_t data);
 // NOTE: The output MUST be buffered since there is no reading function
 //       from the LED MAX7219 controlled.
 
-void max7219b_init(uint8_t *buffer, uint8_t buffer_size);
+void max7219b_init(uint8_t num, uint8_t *buffer, uint8_t buffer_size);
 void max7219b_scheduler(void);
 void max7219b_out(void);
 void max7219b_set(uint8_t x, uint8_t y);
