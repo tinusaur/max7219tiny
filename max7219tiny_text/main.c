@@ -33,8 +33,6 @@
 //              Tinusaur Board
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-// ----------------------------------------------------------------------------
-
 #define MAX7219_SEG_NUM (1+1)	// The number of the segments. Increase this for multiple matrices.
 // NOTE: Add 1 extra element at the end of the buffer for a "hidden" symbol to scroll in.
 #define MAX7219_SEG_LAST (MAX7219_SEG_NUM - 1) * 8	// The index in the buffer of the last segment.
@@ -54,10 +52,8 @@ void max7219b_char(uint8_t x, uint8_t c) {
 // ----------------------------------------------------------------------------
 
 int main(void) {
-
 	// ---- Initialization ----
-	max7219b_init(max7219_buffer, MAX7219_BUFFER_SIZE);
-
+	max7219b_init(MAX7219_SEG_NUM, max7219_buffer, MAX7219_BUFFER_SIZE);
 	// ---- Main Loop ----
 	for (;;) {
 		for (uint8_t c = ' '; c <= 127; c++) {

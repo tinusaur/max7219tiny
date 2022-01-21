@@ -55,7 +55,7 @@ uint8_t pattern_smileyface[] = { // Smiley face :)
 
 int main(void) {
 	// ---- Initialization ----
-	max7219b_init(max7219_buffer, MAX7219_BUFFER_SIZE);
+	max7219b_init(MAX7219_SEG_NUM, max7219_buffer, MAX7219_BUFFER_SIZE);
 	// ---- Main Loop ----
 	uint8_t x = 0;	// Position X
 	uint8_t s = 1;	// Step - left(-1) or right(+1)
@@ -66,10 +66,10 @@ int main(void) {
 		}
 		x += s;
 		if (x > 0) max7219b_col(x - 1, 0);	// Clean on the left
-		if (x < 8) max7219b_col(x + 8, 0);	// Clean on the right
-		if (x >= 8) s = -1;		// Change direction to the left
+		if (x < MAX7219_SEG_NUM * 8 - 8) max7219b_col(x + 8, 0);	// Clean on the right
+		if (x >= MAX7219_SEG_NUM * 8 - 8) s = -1;		// Change direction to the left
 		if (x <= 0) s = 1;		// Change direction to the right
-		_delay_ms(50);
+		_delay_ms(20);
 	}
 	return 0; // Return the mandatory result value.
 }

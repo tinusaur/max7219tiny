@@ -36,7 +36,7 @@
 
 // ----------------------------------------------------------------------------
 
-#define MAX7219_SEG_NUM (2+0)	// The number of the segments. Increase this for multiple matrices.
+#define MAX7219_SEG_NUM 2	// The number of the segments. Increase this for multiple matrices.
 // NOTE: Add 1 for an extra element at the end of the buffer for a "hidden" symbol to scroll in.
 #define MAX7219_SEG_LAST (MAX7219_SEG_NUM - 1) * 8	// The index in the buffer of the last segment.
 #define MAX7219_BUFFER_SIZE	MAX7219_SEG_NUM * 8		// The size of the buffer
@@ -204,7 +204,7 @@ int main(void) {
 	scheduler_init(SCHEDULER_USERFUNC_NULL);
 	scheduler_reinit(SCHEDULER_TCCR0B_1024, SCHEDULER_OCR0A_MIN);	// Adjust, if necessary
 	scheduler_start();
-	max7219b_init(max7219_buffer, MAX7219_BUFFER_SIZE);
+	max7219b_init(MAX7219_SEG_NUM, max7219_buffer, MAX7219_BUFFER_SIZE);
 	max7219b_scheduler();
 
 	// ---- Main Loop ----

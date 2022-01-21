@@ -31,9 +31,12 @@
 //              Tinusaur Board
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+#define MAX7219_SEG_NUM 1	// The number of the segments. Change this for multiple matrices.
+
+// ----------------------------------------------------------------------------
 int main(void) {
 	// ---- Initialization ----
-	max7219_init();
+	max7219_init(MAX7219_SEG_NUM);
 	// ---- Main Loop ----
 	for (;;) {
 		for (uint8_t r = 1; r <= 8; r++) { // 8 times, row values are 1 to 8.

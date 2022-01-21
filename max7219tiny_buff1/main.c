@@ -40,14 +40,14 @@ uint8_t max7219_buffer[MAX7219_BUFFER_SIZE];
 
 int main(void) {
 	// ---- Initialization ----
-	max7219b_init(max7219_buffer, MAX7219_BUFFER_SIZE);
+	max7219b_init(MAX7219_SEG_NUM, max7219_buffer, MAX7219_BUFFER_SIZE);
 	// ---- Main Loop ----
 	for (;;) {
 		for (uint8_t x = 0; x <= MAX7219_SEG_NUM * 8 - 1; x++) {
 			for (int8_t y = 0; y <= 7; y++) {
 				max7219b_set(x, y);		// Set the pixel
 				max7219b_out();			// Output the buffer.
-				_delay_ms(50);
+				_delay_ms(20);
 				max7219b_clr(x, y);		// Clear the pixel
 			}
 		}
