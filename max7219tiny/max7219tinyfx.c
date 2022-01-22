@@ -34,22 +34,7 @@ void max7219fx_delay_cs(uint8_t d) { // d = delay in centisecond
 
 // ----------------------------------------------------------------------------
 
-const uint8_t *max7219fx_font_src;
-uint8_t max7219fx_font_char_base;
-
-// ----------------------------------------------------------------------------
-
-void max7219fx_init(const uint8_t *fron_src, uint8_t char_base) {
-	max7219fx_font_src = fron_src;
-	max7219fx_font_char_base = char_base;
-}
-
-void max7219fx_char(uint8_t x, uint8_t c) {
-	for (uint8_t i = 0; i <= 7; i++) {
-		uint8_t index = c - max7219fx_font_char_base;	// Convert ASCII to index.
-		uint16_t offset = (index << 2) + (index << 1);	// Fast multiply by 6.
-		max7219b_col(x + i, pgm_read_byte(&max7219fx_font_src[offset + i]));
-	}
+void max7219fx_init(void) {
 }
 
 void max7219fx_bmp(uint8_t x, const uint8_t buffer[], uint16_t offset, uint8_t w) {

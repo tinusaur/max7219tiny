@@ -23,8 +23,7 @@
 
 // ----------------------------------------------------------------------------
 
-void max7219fx_init(const uint8_t *fron_src, uint8_t char_base);
-void max7219fx_char(uint8_t x, uint8_t c);
+void max7219fx_init(void);
 void max7219fx_bmp(uint8_t x, const uint8_t buffer[], uint16_t offset, uint8_t w);
 void max7219fx_left(uint8_t n, uint8_t d);
 void max7219fx_inv(void);
