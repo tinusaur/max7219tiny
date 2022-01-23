@@ -20,6 +20,7 @@
 // To reassign the DIN/CS/CLK to different I/O pins you must edit the library code
 // Find the definitions in the "max7219tiny.h" file in the MAX7219Tiny library.
 // IMPORTANT/NOTE: Do that ONLY of you know what you are doing!
+#include "max7219tiny/max7219tinyfx.h"
 
 #include "font6x3num.h"
 
@@ -46,27 +47,32 @@ uint8_t max7219_buffer[MAX7219_BUFFER_SIZE];
 void max7219tx_num(uint8_t x, uint8_t n) {
 	uint8_t index = (n << 1) + n; // Fast multiply by 3.
 	for (uint8_t i = 0; i < 3; i++) {
-		max7219b_col(x++, pgm_read_byte(&font6x3num_data[index++]));
+		uint8_t d = pgm_read_byte(&font6x3num_data[index++]);
+		// d >>= 1; // Use "<<" to move one row up, ">>" one row down.
+		max7219b_col(x++, d);
 	}
-	max7219b_col(x, 0);
+	max7219b_col(x, 0); // Last (empty) column.
 }
 
 // ----------------------------------------------------------------------------
 
+#define MAX7219FX_SCROLL_DELAY 2 // Delay in centisecond
+
 int main(void) {
 	// ---- Initialization ----
+	scheduler_init(SCHEDULER_USERFUNC_NULL);
+	scheduler_reinit(SCHEDULER_TCCR0B_1024, SCHEDULER_OCR0A_MIN);	// Adjust, if necessary
+	scheduler_start();
 	max7219b_init(MAX7219_SEG_NUM, max7219_buffer, MAX7219_BUFFER_SIZE);
+	max7219b_scheduler();
+	max7219fx_init();
 	// ---- Main Loop ----
 	for (;;) {
 		for (uint8_t c = 0; c <= 15; c++) {
 			max7219tx_num(MAX7219_BUFFER_SIZE - 8, c);
-			max7219b_out();	// Output the buffer
-			for (uint8_t s = 0; s <= 3; s++) {
-				max7219b_left();	// Scroll to the left.
-				max7219b_out();		// Manually output the buffer.
-				_delay_ms(50);
-			}
+			max7219fx_left(4, MAX7219FX_SCROLL_DELAY);
 		}
+		_delay_ms(200);
 	}
 	return 0; // Return the mandatory result value.
 }
