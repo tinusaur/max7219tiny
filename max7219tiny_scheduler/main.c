@@ -3,7 +3,7 @@
  * @author Neven Boyanov
  * This is part of the Tinusaur/MAX7219tiny project.
  * ----------------------------------------------------------------------------
- *  Copyright (c) 2022 Tinusaur (https://tinusaur.com). All rights reserved.
+ *  Copyright (c) 2023 Tinusaur (https://tinusaur.com). All rights reserved.
  *  Distributed as open source under the MIT License (see the LICENSE.txt file)
  *  Please, retain in your work a link to the Tinusaur project website.
  * ----------------------------------------------------------------------------
@@ -42,7 +42,7 @@ uint8_t max7219_buffer[MAX7219_BUFFER_SIZE];
 
 int main(void) {
 	// ---- Initialization ----
-	scheduler_init(SCHEDULER_USERFUNC_NULL);
+	scheduler_init();
 	scheduler_reinit(SCHEDULER_TCCR0B_1024, SCHEDULER_OCR0A_MIN);	// Adjust, if necessary
 	scheduler_start();
 	max7219b_init(MAX7219_SEG_NUM, max7219_buffer, MAX7219_BUFFER_SIZE);

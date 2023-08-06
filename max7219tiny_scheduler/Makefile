@@ -2,7 +2,7 @@
 # Makefile
 #
 # -----------------------------------------------------------------------------
-# Copyright (c) 2022 Tinusaur (https://tinusaur.com). All rights reserved.
+# Copyright (c) 2023 Tinusaur (https://tinusaur.com). All rights reserved.
 # Distributed as open source under the MIT License (see the LICENSE.txt file).
 # Please, retain in your work a link to the Tinusaur project website.
 # -----------------------------------------------------------------------------
@@ -327,6 +327,10 @@ AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex:a
 
 #AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep
 
+# Specify the bit clock period. The value is a floating-point number in microseconds.
+# This also fixes issues with some (slower or outdated firmware) USBasp programmers.
+AVRDUDE_BIT_CLOCK_PERIOD = -B 3
+
 # Uncomment the following if you want avrdude's erase cycle counter.
 # Note that this counter needs to be initialized first using -Yn,
 # see avrdude manual.
@@ -342,6 +346,7 @@ AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex:a
 #AVRDUDE_VERBOSE = -v -v
 
 AVRDUDE_FLAGS = -p $(MCU) -P $(AVRDUDE_PORT) -c $(AVRDUDE_PROGRAMMER)
+AVRDUDE_FLAGS += $(AVRDUDE_BIT_CLOCK_PERIOD)
 AVRDUDE_FLAGS += $(AVRDUDE_NO_VERIFY)
 AVRDUDE_FLAGS += $(AVRDUDE_VERBOSE)
 AVRDUDE_FLAGS += $(AVRDUDE_ERASE_COUNTER)
@@ -485,10 +490,12 @@ extcoff: $(TARGET).elf
 
 
 # Create final output files (.hex, .eep) from ELF output file.
+# Also, create a copy of the .hx file as .bthex for use with Blocktinu uploader.
 %.hex: %.elf
 	@echo
 	@echo $(MSG_FLASH) $@
 	$(OBJCOPY) -O $(FORMAT) -R .eeprom -R .fuse -R .lock $< $@
+	$(COPY) $(TARGET).hex $(TARGET).bthex
 
 %.eep: %.elf
 	@echo
