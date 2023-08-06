@@ -3,7 +3,7 @@
  * @author Neven Boyanov
  * This is part of the Tinusaur/MAX7219tiny project.
  * ----------------------------------------------------------------------------
- *  Copyright (c) 2022 Tinusaur (https://tinusaur.com). All rights reserved.
+ *  Copyright (c) 2023 Tinusaur (https://tinusaur.com). All rights reserved.
  *  Distributed as open source under the MIT License (see the LICENSE.txt file)
  *  Please, retain in your work a link to the Tinusaur project website.
  * ----------------------------------------------------------------------------
@@ -19,9 +19,9 @@
 #include "tinyavrlib/scheduler.h"
 
 #include "max7219tiny/max7219tiny.h"
-// If you need to change the ports for the DIN/CS/CLK you should do so
-// in the "max7219tiny.h" source code file in the MAX7219tiny library 
-// so it will take affect on all the code.
+// To reassign the DIN/CS/CLK to different I/O pins you must edit the library code
+// Find the definitions in the "max7219tiny.h" file in the MAX7219Tiny library.
+// IMPORTANT/NOTE: Do that ONLY of you know what you are doing!
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //                 ATtiny85
@@ -33,8 +33,6 @@
 //               +----------+
 //              Tinusaur Board
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-// ----------------------------------------------------------------------------
 
 #define MAX7219_SEG_NUM 2	// The number of the segments. Increase this for multiple matrices.
 // NOTE: Add 1 for an extra element at the end of the buffer for a "hidden" symbol to scroll in.
@@ -201,7 +199,7 @@ const uint8_t scrolls[] PROGMEM = {
 
 int main(void) {
 	// ---- Initialization ----
-	scheduler_init(SCHEDULER_USERFUNC_NULL);
+	scheduler_init();
 	scheduler_reinit(SCHEDULER_TCCR0B_1024, SCHEDULER_OCR0A_MIN);	// Adjust, if necessary
 	scheduler_start();
 	max7219b_init(MAX7219_SEG_NUM, max7219_buffer, MAX7219_BUFFER_SIZE);
